@@ -2,7 +2,7 @@
 
 ## Objetivos 📋
 Desarrollar un sistema, que permita la administración del stock de productos a una PYME que tiene algunas sucursales de venta de ropa (de cara a los empleados): Empleados, Clientes, Productos, Categorias, Compras, Carritos, Sucursal, StockItem, etc., como así también, permitir a los clientes, realizar compras Online.
-Utilizar Visual Studio 2019 preferentemente y crear una aplicación utilizando ASP.NET MVC Core (versión a definir por el docente 2.2 o 3.1).
+Utilizar Visual Studio 2019 preferentemente y crear una aplicación utilizando ASP.NET MVC Core 3.1.
 
 <hr />
 
@@ -198,7 +198,7 @@ De la misma manera Uds. deben definir los tipos de datos asociados a cada una de
 
 **Producto y Categoria**
 - No pueden eliminarse del sistema. 
-- Solo los producto pueden dehabilitarse.
+- Solo los producto pueden deshabilitarse.
 
 **Sucursal**
 - Cada sucursal, tendrá su propio stock.
