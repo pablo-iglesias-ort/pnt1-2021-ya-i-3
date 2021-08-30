@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace CarritoDeCompras
 {
-    public class Carrito
+    public class Producto
     {
+        private string nombre;
+        private string descripcion;
+        private double precioVigente;
         private string activo;
-        private Cliente cliente;
-        private List<CarritoItem> items;
-        private double subtotal;
+        private Categoria categoria;
     }
 }
