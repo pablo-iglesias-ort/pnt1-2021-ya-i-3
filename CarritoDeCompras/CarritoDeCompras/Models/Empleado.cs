@@ -3,19 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CarritoDeCompras
+namespace CarritoDeCompras.Models
 {
-    public class Cliente
+    public class Empleado
     {
         private string nombre;
         private string apellido;
-        private string fechaAlta;
-        private string email;
-        private string DNI;
         private string telefono;
+        private string fechaAlta;
         private string direccion;
-        private Compra compras;
-        private Carrito carrito;
+        private string email;
     }
 }
-
