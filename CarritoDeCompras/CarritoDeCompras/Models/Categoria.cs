@@ -7,8 +7,12 @@ namespace CarritoDeCompras.Models
 {
     public class Categoria
     {
-        private string nombre;
-        private string descripcion;
-        private List<Producto> productos;
+        public Guid Id { get; set; }
+
+        public string Nombre { get; set; }
+        
+        public string Descripcion { get; set; }
+        
+        public List<Producto> Productos { get; set; }
     }
 }

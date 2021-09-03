@@ -7,9 +7,14 @@ namespace CarritoDeCompras.Models
 {
     public class Carrito
     {
-        private string activo;
-        private Cliente cliente;
-        private List<CarritoItem> items;
-        private double subtotal;
+        public Guid Id { get; set; }
+
+        public string Activo { get; set; }
+        
+        public Cliente Cliente { get; set; }
+        
+        public  List<CarritoItem> Items { get; set; }
+
+        public double Subtotal { get; set; }
     }
 }
