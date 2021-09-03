@@ -7,9 +7,10 @@ namespace CarritoDeCompras.Models
 {
     public class Usuario
     {
-        private string nombre;
-        private string email;
-        private string fechaAlta;
-        private readonly string password;
+        public Guid Id { get; set; }
+        public string nombre { get; set; }
+        public string email { get; set; }
+        public DateTime fechaAlta { get; set; }
+        public string password { get; set; }
     }
 }

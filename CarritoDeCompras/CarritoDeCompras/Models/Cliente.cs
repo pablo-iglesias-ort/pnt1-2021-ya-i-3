@@ -7,15 +7,16 @@ namespace CarritoDeCompras.Models
 {
     public class Cliente
     {
-        private string nombre;
-        private string apellido;
-        private string fechaAlta;
-        private string email;
-        private string DNI;
-        private string telefono;
-        private string direccion;
-        private List<Compra> compras;
-        private Carrito carrito;
+        public Guid Id { get; set; }
+        public string nombre { get; set; }
+        public string apellido { get; set; }
+        public DateTime fechaAlta { get; set; }
+        public string email { get; set; }
+        public string DNI { get; set; }
+        public string telefono { get; set; }
+        public string direccion { get; set; }
+        public List<Compra> compras { get; set; }
+        public List<Carrito> carritos { get; set; }
     }
 }
 

@@ -7,11 +7,12 @@ namespace CarritoDeCompras.Models
 {
     public class Empleado
     {
-        private string nombre;
-        private string apellido;
-        private string telefono;
-        private string fechaAlta;
-        private string direccion;
-        private string email;
+        public Guid Id { get; set; }
+        public string nombre { get; set; }
+        public string apellido { get; set; }
+        public string telefono { get; set; }
+        public DateTime fechaAlta { get; set; }
+        public string direccion { get; set; }
+        public string email { get; set; }
     }
 }
