@@ -7,8 +7,12 @@ namespace CarritoDeCompras.Models
 {
     public class StockItem
     {
-        private Sucursal sucursal;
-        private Producto producto;
-        private int cantidad;
+        public Guid Id { get; set; }
+       
+        public Sucursal sucursal { get; set; }
+        
+        public Producto producto {get; set }
+       
+        public int cantidad { get; set; }
     }
 }

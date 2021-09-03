@@ -8,10 +8,15 @@ namespace CarritoDeCompras.Models
 {
     public class Sucursal
     {
-        private string nombre;
-        private string descripcion;
-        private string telefono;
-        private string email;
-        private List<StockItem> stockItems;
+        public Guid Id { get; set; }
+        public string nombre { get; set; }
+        
+        public string descripcion { get; set; }
+        
+        public string telefono { get; set; }
+        
+        public string email { get; set; }
+       
+        public List<StockItem> stockItems { get; set; }
     }
 }
