@@ -11,6 +11,7 @@ namespace CarritoDeCompras.Models
         [Key]
         public Guid Id { get; set; }
 
+        [Required]
         public string Activo { get; set; }
         
         [Required]
@@ -18,6 +19,8 @@ namespace CarritoDeCompras.Models
         
         public  List<CarritoItem> Items { get; set; }
 
+        [Required]
+        [Range(0.0, 999999999999.99)]
         public double Subtotal { get; set; }
     }
 }
