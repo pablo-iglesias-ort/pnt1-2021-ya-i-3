@@ -14,22 +14,22 @@ namespace CarritoDeCompras.Models
         [Required(ErrorMessage ="Debe ingresar un nombre a su producto")]
         [MaxLength(500, ErrorMessage = "No debe superar los 500 caracteres")]
         [MinLength(3, ErrorMessage = "Debe superar al menos 3 caracteres")]
-        public string nombre { get;  set; }
+        public string Nombre { get;  set; }
         
         [Required(ErrorMessage ="Debe ingresar una descripción a su producto")]
         [MinLength(5, ErrorMessage ="Debe ingresar al menos 5 caracteres")]
         [MaxLength(2000, ErrorMessage = "No debe superar los 2000 caracteres")]
-        public string descripcion { get; set; }
+        public string Descripcion { get; set; }
        
         [Required(ErrorMessage ="Debe ingresar un valor")]
         [Range(0.0, 999999999.99, ErrorMessage ="El valor debe ser mayor a 0 y menor a 99999999.99")]
-        public double precioVigente { get; set; }
+        public double PrecioVigente { get; set; }
         
         [Required]
-        public string activo { get; set; }
+        public string Activo { get; set; }
         
         [Required]
-        public Categoria categoria { get; set; }
+        public Categoria Categoria { get; set; }
         
     }
 }
