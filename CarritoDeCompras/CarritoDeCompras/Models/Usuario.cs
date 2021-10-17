@@ -11,6 +11,7 @@ namespace CarritoDeCompras.Models
         public string nombre { get; set; }
         public string email { get; set; }
         public DateTime fechaAlta { get; set; }
+        [Required(ErrorMessage = "Debe ingresar la contraseña")]
         public string password { get; set; }
     }
 }
