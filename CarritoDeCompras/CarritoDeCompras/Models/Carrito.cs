@@ -12,7 +12,7 @@ namespace CarritoDeCompras.Models
         public Guid Id { get; set; }
 
         [Required]
-        public string Activo { get; set; }
+        public Boolean Activo { get; set; }
         
         [Required]
         public Cliente Cliente { get; set; }

@@ -7,6 +7,7 @@ namespace CarritoDeCompras.Models
 {
     public class StockItem
     {
+        [Key]
         public Guid Id { get; set; }
        
         public Sucursal Sucursal { get; set; }

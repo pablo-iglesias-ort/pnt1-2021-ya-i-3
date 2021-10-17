@@ -21,7 +21,7 @@ namespace CarritoDeCompras.Models
         [MinLength(3, ErrorMessage = "Debe superar al menos {2} caracteres")]
         public string Apellido { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe ingresar una fecha de alta")]
         public DateTime FechaAlta { get; set; }
 
         [Required(ErrorMessage ="Debe ingresar un correo electrónico")]
@@ -31,12 +31,14 @@ namespace CarritoDeCompras.Models
 
         [Required(ErrorMessage = "Debe ingresar su documento")]
         [Range(1000000, 99999999, ErrorMessage = "Rango no válido para un documento")]
-        public string Documento { get; set; }
+        public string Dni { get; set; }
         
-        [MinLength(6, ErrorMessage ="Debe ingresar al menos {1} digitos")]
+        [MinLength(8, ErrorMessage ="Debe ingresar al menos {1} digitos")]
         public string Telefono { get; set; }
 
+        [Required(ErrorMessage = "Debe ingresar una direccion")]
         public string Direccion { get; set; }
+
         public List<Compra> Compras { get; set; }
         public List<Carrito> Carritos { get; set; }
     }
