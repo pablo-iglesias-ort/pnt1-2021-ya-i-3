@@ -20,6 +20,6 @@ namespace CarritoDeCompras.Models
         public string Descripcion { get; set; }
 
         
-        public List<Producto> Productos { get; set; }
+        public IEnumerable<Producto> Productos { get; set; }
     }
 }

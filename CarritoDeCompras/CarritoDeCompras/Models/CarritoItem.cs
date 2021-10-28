@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,11 +10,10 @@ namespace CarritoDeCompras.Models
     public class CarritoItem
     {
         [Key]
-        public Guid Id { get; set; }
-
-        public Carrito Carrito { get; set; }
-
-        public Producto Producto { get; set; }
+        public Guid Id
+        {
+            get; set;
+        }
         
         [Required]
         [Range(0.0, 999999999999.99)]
@@ -25,5 +25,15 @@ namespace CarritoDeCompras.Models
 
         [Range(0.0, 999999999999.99)]
         public double ValorTotal { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(Producto))]
+        public Guid ProductoId { get; set; }
+        public Producto Producto { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(Carrito))]
+        public Guid CarritoId { get; set; }
+        public Carrito Carrito { get; set; }
     }
 }

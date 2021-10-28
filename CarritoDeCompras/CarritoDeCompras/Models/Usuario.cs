@@ -14,17 +14,21 @@ namespace CarritoDeCompras.Models
         [Required(ErrorMessage = "Debe ingresar un nombre")]
         [MaxLength(30, ErrorMessage = "No debe superar los {1} caracteres")]
         [MinLength(3, ErrorMessage = "Debe superar al menos {2} caracteres")]
-        public string nombre { get; set; }
+        public string Nombre { get; set; }
+        public string NombreUsuario { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un correo electrónico")]
         [MinLength(3, ErrorMessage = "Debe superar al menos {1} caracteres")]
         [RegularExpression(@"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]
-        public string email { get; set; }
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar una fecha de alta")]
-        public DateTime fechaAlta { get; set; }
+        public DateTime FechaAlta { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar la contraseña")]
-        public string password { get; set; }
+        public byte[] Password { get; set; }
+
+        [Required]
+        public Rol Rol { get; set; }
     }
 }

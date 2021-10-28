@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,8 +40,14 @@ namespace CarritoDeCompras.Models
         [Required(ErrorMessage = "Debe ingresar una direccion")]
         public string Direccion { get; set; }
 
-        public List<Compra> Compras { get; set; }
-        public List<Carrito> Carritos { get; set; }
+       
+        public IEnumerable<Compra> Compras { get; set; }
+        public IEnumerable<Carrito> Carritos { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(Usuario))]
+        public Guid UsuarioId { get; set; }
+
     }
 }
 

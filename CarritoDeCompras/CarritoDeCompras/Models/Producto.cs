@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,9 +28,11 @@ namespace CarritoDeCompras.Models
         
         [Required]
         public Boolean Activo { get; set; }
-        
+
         [Required]
+        [ForeignKey(nameof(Categoria))]
+        public Guid CategoriaId { get; set; }
         public Categoria Categoria { get; set; }
-        
+
     }
 }

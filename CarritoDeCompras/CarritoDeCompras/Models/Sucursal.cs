@@ -28,6 +28,6 @@ namespace CarritoDeCompras.Models
         public string email { get; set; }
 
        
-        public List<StockItem> stockItems { get; set; }
+        public IEnumerable<StockItem> stockItems { get; set; }
     }
 }
