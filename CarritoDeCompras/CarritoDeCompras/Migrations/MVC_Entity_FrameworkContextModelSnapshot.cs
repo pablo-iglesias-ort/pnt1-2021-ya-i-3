@@ -87,48 +87,6 @@ namespace CarritoDeCompras.Migrations
                     b.ToTable("Categorias");
                 });
 
-            modelBuilder.Entity("CarritoDeCompras.Models.Cliente", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Apellido")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Direccion")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Dni")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("FechaAlta")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Telefono")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Clientes");
-                });
-
             modelBuilder.Entity("CarritoDeCompras.Models.Compra", b =>
                 {
                     b.Property<Guid>("Id")
@@ -151,44 +109,6 @@ namespace CarritoDeCompras.Migrations
                     b.HasIndex("ClienteId");
 
                     b.ToTable("Compras");
-                });
-
-            modelBuilder.Entity("CarritoDeCompras.Models.Empleado", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("FechaAlta")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Telefono")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("apellido")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("direccion")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Empleados");
                 });
 
             modelBuilder.Entity("CarritoDeCompras.Models.Producto", b =>
@@ -279,6 +199,23 @@ namespace CarritoDeCompras.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Direccion")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Dni")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -298,12 +235,28 @@ namespace CarritoDeCompras.Migrations
                         .IsRequired()
                         .HasColumnType("BLOB");
 
-                    b.Property<int>("Rol")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Telefono")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Usuario");
+                });
+
+            modelBuilder.Entity("CarritoDeCompras.Models.Cliente", b =>
+                {
+                    b.HasBaseType("CarritoDeCompras.Models.Usuario");
+
+                    b.HasDiscriminator().HasValue("Cliente");
+                });
+
+            modelBuilder.Entity("CarritoDeCompras.Models.Empleado", b =>
+                {
+                    b.HasBaseType("CarritoDeCompras.Models.Usuario");
+
+                    b.HasDiscriminator().HasValue("Empleado");
                 });
 
             modelBuilder.Entity("CarritoDeCompras.Models.Carrito", b =>
@@ -391,16 +344,16 @@ namespace CarritoDeCompras.Migrations
                     b.Navigation("Productos");
                 });
 
+            modelBuilder.Entity("CarritoDeCompras.Models.Sucursal", b =>
+                {
+                    b.Navigation("stockItems");
+                });
+
             modelBuilder.Entity("CarritoDeCompras.Models.Cliente", b =>
                 {
                     b.Navigation("Carritos");
 
                     b.Navigation("Compras");
-                });
-
-            modelBuilder.Entity("CarritoDeCompras.Models.Sucursal", b =>
-                {
-                    b.Navigation("stockItems");
                 });
 #pragma warning restore 612, 618
         }

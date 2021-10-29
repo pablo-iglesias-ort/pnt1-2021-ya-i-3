@@ -21,43 +21,6 @@ namespace CarritoDeCompras.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Clientes",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Nombre = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
-                    Apellido = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
-                    FechaAlta = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    Dni = table.Column<string>(type: "TEXT", nullable: false),
-                    Telefono = table.Column<string>(type: "TEXT", nullable: true),
-                    Direccion = table.Column<string>(type: "TEXT", nullable: false),
-                    UsuarioId = table.Column<Guid>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Clientes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Empleados",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Nombre = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
-                    apellido = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
-                    Telefono = table.Column<string>(type: "TEXT", nullable: true),
-                    FechaAlta = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    direccion = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    UsuarioId = table.Column<Guid>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Empleados", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Sucursales",
                 columns: table => new
                 {
@@ -78,11 +41,15 @@ namespace CarritoDeCompras.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Nombre = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
+                    Apellido = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
+                    Dni = table.Column<string>(type: "TEXT", nullable: false),
                     NombreUsuario = table.Column<string>(type: "TEXT", nullable: true),
+                    Telefono = table.Column<string>(type: "TEXT", nullable: true),
+                    Direccion = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     FechaAlta = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Password = table.Column<byte[]>(type: "BLOB", nullable: false),
-                    Rol = table.Column<int>(type: "INTEGER", nullable: false)
+                    Discriminator = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -124,9 +91,9 @@ namespace CarritoDeCompras.Migrations
                 {
                     table.PrimaryKey("PK_Carritos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Carritos_Clientes_ClienteId",
+                        name: "FK_Carritos_Usuarios_ClienteId",
                         column: x => x.ClienteId,
-                        principalTable: "Clientes",
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -204,9 +171,9 @@ namespace CarritoDeCompras.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Compras_Clientes_ClienteId",
+                        name: "FK_Compras_Usuarios_ClienteId",
                         column: x => x.ClienteId,
-                        principalTable: "Clientes",
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -261,13 +228,7 @@ namespace CarritoDeCompras.Migrations
                 name: "Compras");
 
             migrationBuilder.DropTable(
-                name: "Empleados");
-
-            migrationBuilder.DropTable(
                 name: "StockItem");
-
-            migrationBuilder.DropTable(
-                name: "Usuarios");
 
             migrationBuilder.DropTable(
                 name: "Carritos");
@@ -279,7 +240,7 @@ namespace CarritoDeCompras.Migrations
                 name: "Sucursales");
 
             migrationBuilder.DropTable(
-                name: "Clientes");
+                name: "Usuarios");
 
             migrationBuilder.DropTable(
                 name: "Categorias");

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CarritoDeCompras.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace CarritoDeCompras.Data
 {
-    public class InicializacionDeDatos : Controller
+    public static class InicializacionDeDatos
     {
-        public IActionResult Index()
+        public static void Inicializar(MVC_Entity_FrameworkContext context)
         {
-            return View();
         }
-    }
+		
+	}
 }

@@ -13,7 +13,7 @@ namespace CarritoDeCompras.Models
 
         [Required(ErrorMessage = "Debe ingresar un nombre")]
         [MaxLength(30, ErrorMessage = "No debe superar los {1} caracteres")]
-        [MinLength(3, ErrorMessage = "Debe superar al menos {2} caracteres")]
+        [MinLength(3, ErrorMessage = "Debe superar al menos {1} caracteres")]
         public string Nombre { get; set; }
 
         // no tiene porque ser requerido

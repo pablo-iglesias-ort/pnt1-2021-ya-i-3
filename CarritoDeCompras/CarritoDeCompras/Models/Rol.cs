@@ -7,8 +7,8 @@ namespace CarritoDeCompras.Models
 {
 	public enum Rol
 	{
-		Administrador = 1,
-		Cliente = 2,
-        Empleado = 3,
+		
+		Cliente = 1,
+        Empleado = 2,
 	}
 }
