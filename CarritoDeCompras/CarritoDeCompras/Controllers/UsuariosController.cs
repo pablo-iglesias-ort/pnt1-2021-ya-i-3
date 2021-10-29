@@ -101,14 +101,14 @@ namespace CarritoDeCompras.Controllers
                     usuario.Password = seguridad.EncriptarPass(pass);
                     _context.Add(usuario);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Home");
                 } 
                 else
                 {
                     ModelState.AddModelError(nameof(Cliente.Password), "No cumple con los requisitos");
                 }
             }
-            return View(usuario);
+            return View();
         }
 
         // GET: Usuarios/Edit/5
