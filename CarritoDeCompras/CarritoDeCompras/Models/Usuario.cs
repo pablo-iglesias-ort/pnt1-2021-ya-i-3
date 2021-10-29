@@ -28,6 +28,7 @@ namespace CarritoDeCompras.Models
         [Range(1000000, 99999999, ErrorMessage = "Rango no válido para un documento")]
         public string Dni { get; set; }
 
+        [Required(ErrorMessage = "Debe ingresar un nombre de usuario")]
         public string NombreUsuario { get; set; }
 
         [MinLength(8, ErrorMessage = "Debe ingresar al menos {1} digitos")]
