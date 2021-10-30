@@ -1,4 +1,5 @@
-﻿using CarritoDeCompras.Models;
+﻿using CarritoDeCompras.Controllers;
+using CarritoDeCompras.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,16 +10,16 @@ namespace CarritoDeCompras.Data
 {
     public static class InicializacionDeDatos
     {
-		public static readonly ISeguridad seguridad = new SeguridadBasica();
+        public static Seguridad seguridad = new Seguridad();
 
-		public static void Inicializar(MVC_Entity_FrameworkContext context)
+        public static void Inicializar(MVC_Entity_FrameworkContext context)
 		{
 			context.Database.EnsureCreated();
 
 
 			if (!context.Usuarios.Any())
 			{
-				var usuarioEmpleado = new Usuario
+				var usuarioEmpleado = new Empleado
 				{
 					Id = Guid.NewGuid(),
 					Nombre = "Carlos",
@@ -30,9 +31,9 @@ namespace CarritoDeCompras.Data
 					Email = "Carlos@gmail.com",
 					FechaAlta = DateTime.Now,
 					Password = seguridad.EncriptarPass("Carloscarlin1"),
-					Rol = Rol.Empleado,
+					
 				};
-				var usuarioCliente = new Usuario
+				var usuarioCliente = new Cliente
 				{
 					Id = Guid.NewGuid(),
 					Nombre = "Juan",
@@ -44,7 +45,7 @@ namespace CarritoDeCompras.Data
 					Email = "Juan@gmail.com",
 					FechaAlta = DateTime.Now,
 					Password = seguridad.EncriptarPass("Juanjuanchez1"),
-					Rol = Rol.Cliente,
+					
 
 				};
 
