@@ -256,6 +256,15 @@ namespace CarritoDeCompras.Controllers
             return View();
 
         }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Salir()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }
     
