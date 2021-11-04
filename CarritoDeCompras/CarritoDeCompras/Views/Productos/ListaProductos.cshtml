@@ -14,9 +14,6 @@
                 Nombre
             </th>
             <th>
-                Descripcion
-            </th>
-            <th>
                 Categoria
             </th>
             <th>
@@ -25,7 +22,12 @@
             <th>
                 Cantidad a comprar
             </th>
-            <th></th>
+            <th>
+                Precio total
+            </th>
+            <th>
+               Acciones
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -33,9 +35,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Categoria.Nombre)
@@ -47,11 +46,12 @@
                 <input name="cant" id="cant" class="input-group-text" type="number" value="1" />
             </td>
             <td>
-                <input name="cant" id="cant" class="input-group-text" type="number" />
+                <span name="cant" id="cant" />
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                <a asp-action="Add" asp-route-id="@item.Id">Comprar</a> ||
+                <a asp-action="VerDetalle" asp-route-id="@item.Id">Ver detalle</a>
+                |
+                <a asp-action="Add" asp-route-id="@item.Id">Comprar</a>
             </td>
         </tr>
 }
