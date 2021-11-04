@@ -27,9 +27,9 @@ namespace CarritoDeCompras.Models
         public double PrecioVigente { get; set; }
         
         [Required]
-        public Boolean Activo { get; set; }
+        public bool Activo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Debe elegir una categoría")]
         [ForeignKey(nameof(Categoria))]
         public Guid CategoriaId { get; set; }
         public Categoria Categoria { get; set; }

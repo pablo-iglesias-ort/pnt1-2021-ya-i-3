@@ -40,13 +40,14 @@ namespace CarritoDeCompras.Models
 
         [Required(ErrorMessage = "Debe ingresar un correo electrónico")]
         [MinLength(3, ErrorMessage = "Debe superar al menos {1} caracteres")]
-        [RegularExpression(@"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]
+        [RegularExpression(@"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", ErrorMessage ="La direccción de correo no es válida. Ejemplo: prueba@email.com")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar una fecha de alta")]
         public DateTime FechaAlta { get; set; }
 
         public byte[] Password { get; set; }
+
 
         [Required]
         public abstract Rol Rol { get; }
