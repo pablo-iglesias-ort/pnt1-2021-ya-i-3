@@ -4,7 +4,7 @@
     ViewData["Title"] = "Productos";
 }
 
-<h1>Index</h1>
+<h1>Productos</h1>
 
 
 <table class="table">
@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.Categoria.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PrecioVigente)
+               $@Html.DisplayFor(modelItem => item.PrecioVigente)
             </td>
             <td>
                 <input name="cant" id="cant" class="input-group-text" type="number" value="1" />
