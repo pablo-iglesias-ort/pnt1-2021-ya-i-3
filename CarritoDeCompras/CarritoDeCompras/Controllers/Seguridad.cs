@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CarritoDeCompras.Controllers
 {
-    public class Seguridad : ISeguridad
+    public  class Seguridad : ISeguridad
 	{
 
         public byte[] EncriptarPass(string pass)

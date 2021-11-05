@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CarritoDeCompras
 {
@@ -24,6 +25,14 @@ namespace CarritoDeCompras
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+                opciones =>
+                {
+                    opciones.LoginPath = "/Usuarios/Ingresar";
+                    opciones.AccessDeniedPath = "/Usuarios/AccesoDenegado";
+                    opciones.LogoutPath = "/Usuarios/Salir";
+                }
+            );
             services.AddControllersWithViews();
             services.AddDbContext<MVC_Entity_FrameworkContext>(opciones => opciones.UseSqlite("filename=BaseDeDatos.db"));
         }
@@ -43,6 +52,8 @@ namespace CarritoDeCompras
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -51,6 +62,8 @@ namespace CarritoDeCompras
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseCookiePolicy();
         }
     }
 }

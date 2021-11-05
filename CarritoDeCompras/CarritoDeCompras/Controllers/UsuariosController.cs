@@ -64,11 +64,13 @@ namespace CarritoDeCompras.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,NombreUsuario,Email,FechaAlta,Password,Rol")] Usuario usuario)
+        public async Task<IActionResult> Create(Empleado usuario, string pass)
         {
             if (ModelState.IsValid)
             {
                 usuario.Id = Guid.NewGuid();
+                usuario.FechaAlta = DateTime.Now;
+                usuario.Password = seguridad.EncriptarPass(pass);
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -96,10 +98,20 @@ namespace CarritoDeCompras.Controllers
             {                
                 if(seguridad.ValidarPass(pass))
                 {
+                    
                     usuario.Id = Guid.NewGuid();
                     usuario.FechaAlta = DateTime.Now;
                     usuario.Password = seguridad.EncriptarPass(pass);
+                    
+                    Carrito carrito = new Carrito();
+                    carrito.Id = Guid.NewGuid();
+                    carrito.ClienteId = usuario.Id;
+                    //carrito.ClienteId = Guid.Parse(User.FindFirst("IDUsuario").Value); CREAR CLASE ABSTRACTA
+                    carrito.Activo = true;                    
+
                     _context.Add(usuario);
+                    _context.Add(carrito);
+
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Index", "Home");
                 } 
@@ -230,8 +242,10 @@ namespace CarritoDeCompras.Controllers
                         identidad.AddClaim(new Claim(ClaimTypes.Name, usuario));
                         // Agregamos a la credencial el nombre del estudiante/administrador
                         identidad.AddClaim(new Claim(ClaimTypes.GivenName, user.Nombre));
-                        // Agregamos a la credencial el Rol
+                        //// Agregamos a la credencial el Rol
                         identidad.AddClaim(new Claim(ClaimTypes.Role, user.Rol.ToString()));
+                        // Agregar ID Usuario
+                        identidad.AddClaim(new Claim("IDUsuario", user.Id.ToString()));
 
                         ClaimsPrincipal principal = new ClaimsPrincipal(identidad);
 
@@ -256,6 +270,12 @@ namespace CarritoDeCompras.Controllers
             return View();
 
         }
+        public IActionResult AccesoDenegado(string returnUrl)
+        {
+            TempData["UrlIngreso"] = returnUrl;
+            return View();
+        }
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Salir()

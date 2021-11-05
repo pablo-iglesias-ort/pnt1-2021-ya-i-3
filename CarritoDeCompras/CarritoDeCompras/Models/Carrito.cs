@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,10 +15,12 @@ namespace CarritoDeCompras.Models
         [Required]
         public Boolean Activo { get; set; }
         
-        [Required]
+
+        [ForeignKey(nameof(Cliente))]
+        public Guid ClienteId { get; set; }
         public Cliente Cliente { get; set; }
-        
-       
+
+
 
         [Required]
         [Range(0.0, 999999999999.99)]
