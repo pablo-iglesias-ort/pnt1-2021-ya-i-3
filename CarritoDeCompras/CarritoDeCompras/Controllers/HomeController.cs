@@ -24,8 +24,8 @@ namespace CarritoDeCompras.Controllers
         {
             return View();
         }
-            
-        [Authorize(Roles = nameof(Rol.Empleado))]
+
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
