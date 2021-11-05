@@ -29,6 +29,7 @@ namespace CarritoDeCompras.Models
         public string Dni { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un nombre de usuario")]
+        [Display(Name = "Nombre de usuario")]
         public string NombreUsuario { get; set; }
 
         [MinLength(8, ErrorMessage = "Debe ingresar al menos {1} digitos")]
@@ -44,6 +45,7 @@ namespace CarritoDeCompras.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar una fecha de alta")]
+        [Display(Name = "Fecha de alta")]
         public DateTime FechaAlta { get; set; }
 
         public byte[] Password { get; set; }

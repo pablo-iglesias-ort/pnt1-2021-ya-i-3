@@ -24,6 +24,7 @@ namespace CarritoDeCompras.Models
        
         [Required(ErrorMessage ="Debe ingresar un valor")]
         [Range(0.0, 999999999.99, ErrorMessage ="El valor debe ser mayor a {1} y menor a {2}")]
+        [Display(Name = "Precio")]
         public double PrecioVigente { get; set; }
         
         [Required]
