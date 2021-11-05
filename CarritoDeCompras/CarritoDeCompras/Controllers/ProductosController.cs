@@ -23,6 +23,7 @@ namespace CarritoDeCompras.Controllers
         }
 
         // GET: Productos
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Index()
         {
             var mVC_Entity_FrameworkContext = _context.Productos.Include(p => p.Categoria);
@@ -49,6 +50,7 @@ namespace CarritoDeCompras.Controllers
         }
 
         // GET: Productos/ListaProductos
+        [AllowAnonymous]
         public async Task<IActionResult> ListaProductos()
         {
             var mVC_Entity_FrameworkContext = _context.Productos.Include(p => p.Categoria);

@@ -106,7 +106,7 @@ namespace CarritoDeCompras.Controllers
                     Carrito carrito = new Carrito();
                     carrito.Id = Guid.NewGuid();
                     carrito.ClienteId = usuario.Id;
-                    //carrito.ClienteId = Guid.Parse(User.FindFirst("IDUsuario").Value); CREAR CLASE ABSTRACTA
+                    //carrito.ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value); CREAR CLASE ABSTRACTA
                     carrito.Activo = true;                    
 
                     _context.Add(usuario);
@@ -245,7 +245,7 @@ namespace CarritoDeCompras.Controllers
                         //// Agregamos a la credencial el Rol
                         identidad.AddClaim(new Claim(ClaimTypes.Role, user.Rol.ToString()));
                         // Agregar ID Usuario
-                        identidad.AddClaim(new Claim("IDUsuario", user.Id.ToString()));
+                        identidad.AddClaim(new Claim("IdUsuario", user.Id.ToString()));
 
                         ClaimsPrincipal principal = new ClaimsPrincipal(identidad);
 
