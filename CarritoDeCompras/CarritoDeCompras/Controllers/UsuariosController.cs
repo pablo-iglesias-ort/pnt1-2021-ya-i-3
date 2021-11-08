@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CarritoDeCompras.Controllers
 {
-    [AllowAnonymous]
+    
     public class UsuariosController : Controller
 
        
@@ -57,7 +57,6 @@ namespace CarritoDeCompras.Controllers
         
         
         [Authorize (Roles = nameof(Rol.Empleado))]
-          
         public IActionResult Create()
         {
             return View();
@@ -82,6 +81,7 @@ namespace CarritoDeCompras.Controllers
         }
 
         // GET: Usuarios/Create
+        [AllowAnonymous]
         public IActionResult Registro()
         {
             return View();
