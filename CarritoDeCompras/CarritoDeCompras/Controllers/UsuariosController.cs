@@ -54,14 +54,17 @@ namespace CarritoDeCompras.Controllers
 
 
         // GET: Usuarios/Create
-
+        
+        
+        [Authorize (Roles = nameof(Rol.Empleado))]
+          
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Usuarios/Create
-        
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Empleado usuario, string pass)
@@ -94,26 +97,37 @@ namespace CarritoDeCompras.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registro(Cliente usuario, string pass)
         {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(m => m.NombreUsuario == usuario.NombreUsuario);
+
             if (ModelState.IsValid)
             {                
                 if(seguridad.ValidarPass(pass))
                 {
-                    
-                    usuario.Id = Guid.NewGuid();
-                    usuario.FechaAlta = DateTime.Now;
-                    usuario.Password = seguridad.EncriptarPass(pass);
-                    
-                    Carrito carrito = new Carrito();
-                    carrito.Id = Guid.NewGuid();
-                    carrito.ClienteId = usuario.Id;
-                    //carrito.ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value); CREAR CLASE ABSTRACTA
-                    carrito.Activo = true;                    
+                    if(user == null)
+                    {
 
-                    _context.Add(usuario);
-                    _context.Add(carrito);
+                        usuario.Id = Guid.NewGuid();
+                        usuario.FechaAlta = DateTime.Now;
+                        usuario.Password = seguridad.EncriptarPass(pass);
 
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Index", "Home");
+                        Carrito carrito = new Carrito();
+                        carrito.Id = Guid.NewGuid();
+                        carrito.ClienteId = usuario.Id;
+                        //carrito.ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value); CREAR CLASE ABSTRACTA
+                        carrito.Activo = true;
+
+                        _context.Add(usuario);
+                        _context.Add(carrito);
+
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(nameof(Cliente.NombreUsuario), "No se pueden registrar 2 clientes con el mismo nombre de usuario");
+                    }
+                    
+                    
                 } 
                 else
                 {
