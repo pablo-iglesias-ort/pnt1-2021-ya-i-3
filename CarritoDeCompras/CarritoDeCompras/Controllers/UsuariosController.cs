@@ -19,7 +19,8 @@ namespace CarritoDeCompras.Controllers
        
     {
         private readonly MVC_Entity_FrameworkContext _context;
-         public Seguridad seguridad = new Seguridad();
+        public Seguridad seguridad = new Seguridad();
+    
 
     public UsuariosController(MVC_Entity_FrameworkContext context)
         {
@@ -112,7 +113,8 @@ namespace CarritoDeCompras.Controllers
 
                         Carrito carrito = new Carrito();
                         carrito.Id = Guid.NewGuid();
-                        carrito.ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value); //crear clase abstracta
+                        
+                       //carrito.ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value); //crear clase abstracta
                         carrito.Activo = true;
 
                         _context.Add(usuario);
@@ -307,7 +309,7 @@ namespace CarritoDeCompras.Controllers
                         // Agregar ID Usuario
                         identidad.AddClaim(new Claim("IdUsuario", user.Id.ToString()));
 
-                        identidad.AddClaim(new Claim("IdCarrito", carrito.Id.ToString())); //TIRA ERROR AL INGRESAR
+                        //identidad.AddClaim(new Claim("IdCarrito", carrito.Id.ToString())); //TIRA ERROR AL INGRESAR
 
                         ClaimsPrincipal principal = new ClaimsPrincipal(identidad);
 

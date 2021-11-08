@@ -156,11 +156,32 @@ namespace CarritoDeCompras.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SucursalExists(Guid id)
+        private  bool SucursalExists(Guid id)
         {
             return _context.Sucursales.Any(e => e.Id == id);
         }
-    }
+
+        public IActionResult Productos(Guid id)
+        {
+            if (!SucursalExists(id))
+            {
+                return NotFound();
+            }
+
+            var sucursalConProductos = _context.Sucursales
+                                            .Include(sucursal => sucursal.StockItems)
+                                                .ThenInclude(sucursalStockItem => sucursalStockItem.Producto)
+                                            .FirstOrDefault(e => e.Id == id);
+
+            var productos = sucursalConProductos.StockItems.Select(sucursalProducto => sucursalProducto.Producto);
+            
+
+            return View(productos);
+        }
         
-}
+    }
+
+
+  }      
+
 

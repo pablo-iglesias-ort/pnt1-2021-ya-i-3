@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using CarritoDeCompras.Models;
 
 namespace CarritoDeCompras.Models
 {
@@ -19,6 +21,8 @@ namespace CarritoDeCompras.Models
 
         public DbSet<Usuario> Usuarios { get; set; }
 
+        public DbSet<CarritoDeCompras.Models.StockItem> StockItem { get; set; }
 
+       
     }
 }

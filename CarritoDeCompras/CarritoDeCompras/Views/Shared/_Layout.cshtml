@@ -29,7 +29,7 @@
                         {
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="ListaProductos">Lista de productos</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Lista de productos</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
@@ -37,21 +37,24 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Sucursales" asp-action="Index">Sucursales</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="StockItems" asp-action="Index">StockTotal</a>
+                            </li>
+
 
 
                         }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="ListaProductos">Catalogo</a>
-                        </li>
 
-                         @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
+
+                        @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
                         {
-
-
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Sucursales" asp-action="ListaSucursales">Sucursales</a>
                             </li>
                         }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="ListaProductos">Catalogo</a>
+                        </li>
 
                     </ul>
                 </div>
