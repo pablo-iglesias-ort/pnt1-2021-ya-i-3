@@ -110,13 +110,13 @@ namespace CarritoDeCompras.Controllers
                         usuario.FechaAlta = DateTime.Now;
                         usuario.Password = seguridad.EncriptarPass(pass);
 
-                        /*Carrito carrito = new Carrito();
+                        Carrito carrito = new Carrito();
                         carrito.Id = Guid.NewGuid();
                         carrito.ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value); //crear clase abstracta
-                        carrito.Activo = true;*/
+                        carrito.Activo = true;
 
                         _context.Add(usuario);
-                        //_context.Add(carrito);
+                        _context.Add(carrito);
 
                         await _context.SaveChangesAsync();
                         return RedirectToAction("Index", "Home");
@@ -261,7 +261,7 @@ namespace CarritoDeCompras.Controllers
                         // Agregar ID Usuario
                         identidad.AddClaim(new Claim("IdUsuario", user.Id.ToString()));
 
-                        //identidad.AddClaim(new Claim("IdCarrito", carrito.Id.ToString())); TIRA ERROR AL INGRESAR
+                        identidad.AddClaim(new Claim("IdCarrito", carrito.Id.ToString())); //TIRA ERROR AL INGRESAR
 
                         ClaimsPrincipal principal = new ClaimsPrincipal(identidad);
 
