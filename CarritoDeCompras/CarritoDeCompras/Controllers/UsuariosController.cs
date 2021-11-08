@@ -136,7 +136,7 @@ namespace CarritoDeCompras.Controllers
             return View();
         }
 
-        // GET: Usuarios/Edit/5
+        
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -152,12 +152,58 @@ namespace CarritoDeCompras.Controllers
             return View(usuario);
         }
 
-        // POST: Usuarios/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Nombre,NombreUsuario,Email,FechaAlta,Password,Rol")] Usuario usuario)
+        {
+            if (id != usuario.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(usuario);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UsuarioExists(usuario.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(usuario);
+        }
+
+        public async Task<IActionResult> EditCliente(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            return View(usuario);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCliente(Guid id,[Bind("Telefono,Direccion,Password")] Usuario usuario)
         {
             if (id != usuario.Id)
             {
