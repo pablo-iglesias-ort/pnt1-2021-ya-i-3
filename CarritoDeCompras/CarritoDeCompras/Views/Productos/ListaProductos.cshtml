@@ -36,9 +36,13 @@
                $@Html.DisplayFor(modelItem => item.PrecioVigente)
             </td>
             <td>
-                <a asp-action="VerDetalle" asp-route-id="@item.Id">Ver detalle</a>
-                |
-                <a asp-action="Add" asp-route-id="@item.Id">Agregar al carrito</a>
+                <a asp-action="VerDetalle" asp-route-id="@item.Id">Ver detalle</a> ||
+                @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
+                {
+                    <a asp-action="Add" asp-route-id="@item.Id">Agregar al carrito</a>
+                }
+
+
             </td>
         </tr>
 }
