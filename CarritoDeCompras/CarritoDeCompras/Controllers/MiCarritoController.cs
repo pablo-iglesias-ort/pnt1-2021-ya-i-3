@@ -1,0 +1,167 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using CarritoDeCompras.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+
+namespace CarritoDeCompras.Controllers
+{
+    [Authorize]
+    public class MiCarritoController : Controller
+    {
+        private readonly MVC_Entity_FrameworkContext _context;
+
+        public MiCarritoController(MVC_Entity_FrameworkContext context)
+        {
+            _context = context;
+        }
+
+        // GET: MiCarrito
+        public async Task<IActionResult> Index()
+        {
+            var mVC_Entity_FrameworkContext = _context.Carritos.Include(c => c.Cliente);
+            return View(await mVC_Entity_FrameworkContext.ToListAsync());
+        }
+
+        [Authorize(Roles = nameof(Rol.Cliente))]
+        // GET: MiCarrito/Details/5
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var carrito = await _context.Carritos
+                .Include(c => c.Cliente)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (carrito == null)
+            {
+                return NotFound();
+            }
+
+            return View(carrito);
+        }
+
+        // GET: MiCarrito/Create
+        public IActionResult Create()
+        {
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido");
+            return View();
+        }
+
+        // POST: MiCarrito/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Activo,ClienteId,Subtotal")] Carrito carrito)
+        {
+            if (ModelState.IsValid)
+            {
+                carrito.Id = Guid.NewGuid();
+                _context.Add(carrito);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", carrito.ClienteId);
+            return View(carrito);
+        }
+
+        [Authorize(Roles = nameof(Rol.Cliente))]
+        // GET: MiCarrito/Edit/5
+        public async Task<IActionResult> Edit(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var carrito = await _context.Carritos.FindAsync(id);
+            if (carrito == null)
+            {
+                return NotFound();
+            }
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", carrito.ClienteId);
+            return View(carrito);
+        }
+
+        // POST: MiCarrito/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Activo,ClienteId,Subtotal")] Carrito carrito)
+        {
+            if (id != carrito.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(carrito);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CarritoExists(carrito.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", carrito.ClienteId);
+            return View(carrito);
+        }
+
+        // GET: MiCarrito/Delete/5
+        public async Task<IActionResult> Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var carrito = await _context.Carritos
+                .Include(c => c.Cliente)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (carrito == null)
+            {
+                return NotFound();
+            }
+
+            return View(carrito);
+        }
+
+        // POST: MiCarrito/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var carrito = await _context.Carritos.FindAsync(id);
+            _context.Carritos.Remove(carrito);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool CarritoExists(Guid id)
+        {
+            return _context.Carritos.Any(e => e.Id == id);
+        }
+    }
+}

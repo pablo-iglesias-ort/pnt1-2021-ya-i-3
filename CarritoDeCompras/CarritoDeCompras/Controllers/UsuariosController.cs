@@ -112,8 +112,7 @@ namespace CarritoDeCompras.Controllers
 
                         Carrito carrito = new Carrito();
                         carrito.Id = Guid.NewGuid();
-                        carrito.ClienteId = usuario.Id;
-                        //carrito.ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value); CREAR CLASE ABSTRACTA
+                        carrito.ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value); //crear clase abstracta
                         carrito.Activo = true;
 
                         _context.Add(usuario);
@@ -241,14 +240,15 @@ namespace CarritoDeCompras.Controllers
 
                 // Verificamos que exista el usuario
                 var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.NombreUsuario == usuario);
+               
                 if (user != null)
                 {
-
+                    
                     // Verificamos que coincida la contraseña
                     var contraseña = seguridad.EncriptarPass(pass);
                     if (contraseña.SequenceEqual(user.Password))
                     {
-
+                        var carrito = await _context.Carritos.FirstOrDefaultAsync(u => u.ClienteId == user.Id);
                         // Creamos los Claims (credencial de acceso con informacion del usuario)
                         ClaimsIdentity identidad = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -260,6 +260,8 @@ namespace CarritoDeCompras.Controllers
                         identidad.AddClaim(new Claim(ClaimTypes.Role, user.Rol.ToString()));
                         // Agregar ID Usuario
                         identidad.AddClaim(new Claim("IdUsuario", user.Id.ToString()));
+
+                        identidad.AddClaim(new Claim("IdCarrito", carrito.Id.ToString()));
 
                         ClaimsPrincipal principal = new ClaimsPrincipal(identidad);
 
