@@ -15,19 +15,19 @@ namespace CarritoDeCompras.Models
         [Required(ErrorMessage = "Debe ingresar un nombre")]
         [MaxLength(30, ErrorMessage = "No debe superar los {1} caracteres")]
         [MinLength(3, ErrorMessage = "Debe superar al menos {1} caracteres")]
-        public string nombre { get; set; }
+        public string Nombre { get; set; }
 
         // no tiene porque ser requerido
-        public string descripcion { get; set; }
+        public string Descripcion { get; set; }
 
         [MinLength(8, ErrorMessage = "Debe ingresar al menos {1} digitos")]
-        public string telefono { get; set; }
+        public string Telefono { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un correo electrónico")]
         [EmailAddress]
-        public string email { get; set; }
+        public string Email { get; set; }
 
        
-        public IEnumerable<StockItem> stockItems { get; set; }
+        public IEnumerable<StockItem> StockItems { get; set; }
     }
 }
