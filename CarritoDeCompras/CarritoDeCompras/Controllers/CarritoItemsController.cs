@@ -45,6 +45,9 @@ namespace CarritoDeCompras.Controllers
             return View(carritoItem);
         }
 
+
+
+
         // GET: CarritoItems/Create
         public IActionResult Create()
         {
@@ -79,7 +82,6 @@ namespace CarritoDeCompras.Controllers
             {
                 return NotFound();
             }
-
             var carritoItem = await _context.CarritoItems.FindAsync(id);
             if (carritoItem == null)
             {

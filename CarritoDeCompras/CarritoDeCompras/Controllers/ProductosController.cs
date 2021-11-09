@@ -197,7 +197,8 @@ namespace CarritoDeCompras.Controllers
 
             if (carritoId!=null)
             {
-                var itemsEnCarrito = await _context.CarritoItems.FirstOrDefaultAsync(c => c.ProductoId == productoId);
+              
+                var itemsEnCarrito = await _context.CarritoItems.FirstOrDefaultAsync(c => c.ProductoId == productoId && c.CarritoId == carritoId);
                 if (itemsEnCarrito != null)
                 {
                     itemsEnCarrito.Cantidad += 1;

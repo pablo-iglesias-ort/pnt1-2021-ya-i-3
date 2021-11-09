@@ -24,27 +24,30 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Categoria.Nombre)
-            </td>
-            <td>
-               $@Html.DisplayFor(modelItem => item.PrecioVigente)
-            </td>
-            <td>
-                <a asp-action="VerDetalle" asp-route-id="@item.Id">Ver detalle</a> ||
-                @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
-                {
-                    <a asp-action="Agregar" asp-route-productoId="@item.Id">Agregar al carrito</a>
-                }
-
-
-            </td>
-        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Categoria.Nombre)
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.PrecioVigente)
+                </td>
+                <td>
+                    <a asp-action="VerDetalle" asp-route-id="@item.Id">Ver detalle</a> ||
+                    @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
+                    {
+                        <a asp-action="Agregar" asp-route-productoId="@item.Id">Agregar al carrito</a> 
 }
+                        
+
+                </td>
+            </tr>
+
+        }
+        
     </tbody>
 </table>
