@@ -43,7 +43,12 @@
     }
 
     <a asp-controller="Productos" asp-action="ListaProductos">Volver al catalogo</a> ||
-        <input asp-controller="MiCarrito" asp-action="Details" type="submit" value="VACIAR EL CARRITO" class="btn-outline-danger" /> ||
+    <div>
+        <form asp-action="VaciarCarrito">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="VACIAR EL CARRITO" class="btn-outline-danger" />
+        </form>
+    </div>||
     <input asp-controller="MiCarrito" asp-action="Details" type="submit" value="COMPRAR" class="btn-outline-success" />
     
 </div>

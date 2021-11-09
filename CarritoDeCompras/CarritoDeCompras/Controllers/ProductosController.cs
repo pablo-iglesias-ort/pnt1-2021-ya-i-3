@@ -219,7 +219,9 @@ namespace CarritoDeCompras.Controllers
 
 
                 _context.Add(items);
-                await _context.SaveChangesAsync();
+                carritoUsuario.Subtotal += items.ValorTotal;
+                _context.Update(carritoUsuario);
+                    await _context.SaveChangesAsync();
                 }
             } else
             {

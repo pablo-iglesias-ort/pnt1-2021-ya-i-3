@@ -157,6 +157,25 @@ namespace CarritoDeCompras.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // POST: MiCarrito/Delete/5
+        [HttpPost, ActionName("VaciarCarrito")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VaciarCarrito(Guid id)
+        {
+            var carrito = await _context.Carritos.FindAsync(id);
+            if (carrito != null)
+            {
+                var carritoItems = await _context.CarritoItems.Where(ci => (ci.CarritoId == carrito.Id)).ToListAsync();
+                foreach (var n in carritoItems) {
+                    _context.CarritoItems.Remove(n); 
+                }
+                carrito.Subtotal = 0;
+                _context.Carritos.Update(carrito);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Details), new { id = carrito.Id }); 
+            }
+            return NotFound();
+        }
         private bool CarritoExists(Guid id)
         {
             return _context.Carritos.Any(e => e.Id == id);
