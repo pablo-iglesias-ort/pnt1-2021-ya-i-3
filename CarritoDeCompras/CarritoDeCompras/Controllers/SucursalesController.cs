@@ -21,9 +21,9 @@ namespace CarritoDeCompras.Controllers
 
         // GET: Sucursales
         [Authorize(Roles = nameof(Rol.Empleado))]
-        public async Task<IActionResult> Index()
-        {
+        public async Task<IActionResult> Index() { 
             return View(await _context.Sucursales.ToListAsync());
+            
         }
 
         // GET: Sucursales/Details/5
