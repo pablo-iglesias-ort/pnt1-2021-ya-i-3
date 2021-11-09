@@ -39,7 +39,7 @@
                 <a asp-action="VerDetalle" asp-route-id="@item.Id">Ver detalle</a> ||
                 @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
                 {
-                    <a asp-action="Add" asp-route-id="@item.Id">Agregar al carrito</a>
+                    <a asp-action="Agregar" asp-route-productoId="@item.Id">Agregar al carrito</a>
                 }
 
 

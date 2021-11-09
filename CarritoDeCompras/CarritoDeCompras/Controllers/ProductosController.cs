@@ -188,5 +188,44 @@ namespace CarritoDeCompras.Controllers
         {
             return _context.Productos.Any(e => e.Id == id);
         }
+
+
+        public async Task<IActionResult> Agregar(Guid productoId)
+        {
+            var carritoId = Guid.Parse(User.FindFirst("IdCarrito").Value);
+            var producto = await _context.Productos.FindAsync(productoId);
+
+            if (carritoId!=null)
+            {
+                var itemsEnCarrito = await _context.CarritoItems.FirstOrDefaultAsync(c => c.ProductoId == productoId);
+                if (itemsEnCarrito != null)
+                {
+                    itemsEnCarrito.Cantidad += 1;
+                    itemsEnCarrito.ValorTotal = itemsEnCarrito.ValorUnitario * itemsEnCarrito.Cantidad;
+                    _context.Update(itemsEnCarrito);
+                    await _context.SaveChangesAsync();
+                }
+                else { 
+                CarritoItem items = new CarritoItem();
+                items.Id = Guid.NewGuid();
+                items.CarritoId = carritoId;
+                items.ProductoId = producto.Id;
+                items.Cantidad = 1;
+                items.ValorUnitario = producto.PrecioVigente;
+                items.ValorTotal = producto.PrecioVigente * items.Cantidad;
+
+                _context.Add(items);
+                await _context.SaveChangesAsync();
+                }
+            } else
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(ListaProductos));
+        }
+
     }
+
+  
+
 }
