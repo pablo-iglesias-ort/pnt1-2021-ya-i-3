@@ -1,4 +1,5 @@
-﻿@model CarritoDeCompras.Models.Carrito
+﻿@model CarritoDeCompras.Models.Carrito 
+
 
 @{
     ViewData["Title"] = "Details";
@@ -10,12 +11,16 @@
     
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Activo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Activo)
-        </dd>
+        @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Activo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Activo)
+            </dd>
+        }
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Cliente)
         </dt>
@@ -26,10 +31,11 @@
             @Html.DisplayNameFor(model => model.Subtotal)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Subtotal)
+            $@Html.DisplayFor(model => model.Subtotal)
         </dd>
     </dl>
 </div>
+
 <div>
     @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
     {
@@ -37,8 +43,8 @@
     }
 
     <a asp-controller="Productos" asp-action="ListaProductos">Volver al catalogo</a> ||
-        <a asp-controller="MiCarrito" asp-action="Details">Vaciar el carrito</a> ||
-    <input asp-action="Details" type="submit" value="COMPRAR" class="btn-outline-success" />
+        <input asp-controller="MiCarrito" asp-action="Details" type="submit" value="VACIAR EL CARRITO" class="btn-outline-danger" /> ||
+    <input asp-controller="MiCarrito" asp-action="Details" type="submit" value="COMPRAR" class="btn-outline-success" />
     
 </div>
  

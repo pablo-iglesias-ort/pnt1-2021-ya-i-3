@@ -76,7 +76,7 @@ namespace CarritoDeCompras.Controllers
         }
 
         [Authorize(Roles = nameof(Rol.Cliente))]
-        // GET: MiCarrito/Edit/5
+        
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -93,9 +93,7 @@ namespace CarritoDeCompras.Controllers
             return View(carrito);
         }
 
-        // POST: MiCarrito/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Activo,ClienteId,Subtotal")] Carrito carrito)
