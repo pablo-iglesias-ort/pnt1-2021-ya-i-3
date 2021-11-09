@@ -189,17 +189,25 @@ namespace CarritoDeCompras.Controllers
 
         public async Task<IActionResult> EditCliente(Guid? id)
         {
-            if (id == null)
+            if (id == Guid.Parse(User.FindFirst("IdUsuario").Value))
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var usuario = await _context.Usuarios.FindAsync(id);
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
+                return View(usuario);
+            }
+            else
             {
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-            return View(usuario);
         }
 
 

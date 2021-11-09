@@ -68,9 +68,12 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+    @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente") {
+    }
+        <a asp-action="EditCliente" asp-route-id="@Model.Id">Editar</a>
     @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
     {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
         <a asp-action="Index">Lista de clientes</a>
     }
 
