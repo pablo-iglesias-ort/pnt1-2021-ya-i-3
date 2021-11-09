@@ -4,10 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Detalles</h1>
+<h1><img src=https://us.123rf.com/450wm/vectomart/vectomart1301/vectomart130100121/17694889-ilustraci%C3%B3n-del-carro-lleno-de-bolsa-de-la-compra-y-caja-de-regalo-con-la-cinta-en-venta.jpg?ver=6 width="200" height="200" alt="Computer Hope" /> MI CARRITO</h1>
 
 <div>
-    <h4>Carrito</h4>
+    
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -36,7 +36,9 @@
         <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
     }
 
-    <a asp-controller="Productos" asp-action="ListaProductos">Volver al catalogo</a> |
+    <a asp-controller="Productos" asp-action="ListaProductos">Volver al catalogo</a> ||
+        <a asp-controller="MiCarrito" asp-action="Details">Vaciar el carrito</a> ||
+    <input asp-action="Details" type="submit" value="COMPRAR" class="btn-outline-success" />
     
 </div>
  
