@@ -48,7 +48,7 @@ namespace CarritoDeCompras.Controllers
             return View(stockItem);
         }
 
-/*
+
         // GET: StockItems/Details/5
         public async Task<IActionResult> DetallePorSucursal(Guid? idSucursal)
         {
@@ -57,19 +57,16 @@ namespace CarritoDeCompras.Controllers
                 return NotFound();
             }
 
-            var stockItem = from s in _context.StockItem.Include(s => s.Producto).Include(s => s.Sucursal)
-            select s;
-            
-                stockItem = stockItem.Where(s => s.SucursalId.ToString().Contains(idSucursal.ToString()));
+            var stockItem = await _context.StockItem.Include(s => s.Producto).Include(s => s.Sucursal).Where(s => (s.SucursalId == idSucursal)).ToListAsync();
             
             if (stockItem == null)
             {
                 return NotFound();
             }
 
-            return View(await stockItem.ToListAsync());
+            return View(stockItem);
         }
-*/
+
         // GET: StockItems/Create
         public IActionResult Create()
         {
