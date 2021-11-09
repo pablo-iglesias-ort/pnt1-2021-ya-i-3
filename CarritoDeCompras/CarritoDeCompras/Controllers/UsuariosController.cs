@@ -138,7 +138,7 @@ namespace CarritoDeCompras.Controllers
             return View();
         }
 
-        
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -186,7 +186,8 @@ namespace CarritoDeCompras.Controllers
             }
             return View(usuario);
         }
-
+       
+        [Authorize(Roles = nameof(Rol.Cliente))]
         public async Task<IActionResult> EditCliente(Guid? id)
         {
             if (id == Guid.Parse(User.FindFirst("IdUsuario").Value))
@@ -244,6 +245,7 @@ namespace CarritoDeCompras.Controllers
         }
 
         // GET: Usuarios/Delete/5
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)

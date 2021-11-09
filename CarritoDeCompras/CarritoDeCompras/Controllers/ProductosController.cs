@@ -76,7 +76,7 @@ namespace CarritoDeCompras.Controllers
             return View(producto);
         }
 
-        // GET: Productos/Create
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public IActionResult Create()
         {
             ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Nombre");
@@ -101,7 +101,7 @@ namespace CarritoDeCompras.Controllers
             return View(producto);
         }
 
-        // GET: Productos/Edit/5
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -154,7 +154,7 @@ namespace CarritoDeCompras.Controllers
             return View(producto);
         }
 
-        // GET: Productos/Delete/5
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -189,7 +189,7 @@ namespace CarritoDeCompras.Controllers
             return _context.Productos.Any(e => e.Id == id);
         }
 
-
+        [Authorize(Roles = nameof(Rol.Cliente))]
         public async Task<IActionResult> Agregar(Guid productoId)
         {
             var carritoUsuario = await _context.Carritos.FindAsync(Guid.Parse(User.FindFirst("IdCarrito").Value));

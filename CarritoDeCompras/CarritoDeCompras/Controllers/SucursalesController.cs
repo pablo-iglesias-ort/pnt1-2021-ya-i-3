@@ -68,7 +68,7 @@ namespace CarritoDeCompras.Controllers
             return View(sucursal);
         }
 
-        // GET: Sucursales/Edit/5
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -119,7 +119,7 @@ namespace CarritoDeCompras.Controllers
             return View(sucursal);
         }
 
-        // GET: Sucursales/Delete/5
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)

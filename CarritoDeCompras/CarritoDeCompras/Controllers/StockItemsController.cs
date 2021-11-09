@@ -67,7 +67,7 @@ namespace CarritoDeCompras.Controllers
             return View(stockItem);
         }
 
-        // GET: StockItems/Create
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public IActionResult Create()
         {
             ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Descripcion");
@@ -94,7 +94,7 @@ namespace CarritoDeCompras.Controllers
             return View(stockItem);
         }
 
-        // GET: StockItems/Edit/5
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -149,7 +149,7 @@ namespace CarritoDeCompras.Controllers
             return View(stockItem);
         }
 
-        // GET: StockItems/Delete/5
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CarritoDeCompras.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarritoDeCompras.Controllers
 {
@@ -42,7 +43,7 @@ namespace CarritoDeCompras.Controllers
             return View(categoria);
         }
 
-        // GET: Categorias/Create
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public IActionResult Create()
         {
             return View();
@@ -65,7 +66,7 @@ namespace CarritoDeCompras.Controllers
             return View(categoria);
         }
 
-        // GET: Categorias/Edit/5
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -116,7 +117,7 @@ namespace CarritoDeCompras.Controllers
             return View(categoria);
         }
 
-        // GET: Categorias/Delete/5
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)

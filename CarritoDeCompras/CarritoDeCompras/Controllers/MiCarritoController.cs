@@ -180,5 +180,36 @@ namespace CarritoDeCompras.Controllers
         {
             return _context.Carritos.Any(e => e.Id == id);
         }
+
+        [HttpPost, ActionName("Comprar")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Comprar(Guid id)
+        {
+            var carrito = await _context.Carritos.FindAsync(id);
+            if (carrito != null)
+            {
+                var carritoItems = await _context.CarritoItems.Where(ci => (ci.CarritoId == carrito.Id)).ToListAsync();
+                foreach (var n in carritoItems)
+                {
+                    _context.CarritoItems.Remove(n);
+                }
+                carrito.Subtotal = 0;
+                carrito.Activo = false;
+                _context.Carritos.Update(carrito);
+
+                Carrito carritoNuevo = new Carrito();        // TERMINAR CORREGIR ESTE METODO
+                carritoNuevo.Id = Guid.NewGuid();
+                carritoNuevo.ClienteId = usuario.Id; 
+                carritoNuevo.ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value);
+                carritoNuevo.Activo = true;
+                _context.Add(carritoNuevo);
+
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Details), new { id = carrito.Id });
+            }
+            return NotFound();
+        }
+        
     }
 }
