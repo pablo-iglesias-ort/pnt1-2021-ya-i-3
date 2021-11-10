@@ -41,7 +41,7 @@
                     @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
                     {
                
-                    <a asp-action="Agregar" asp-route-productoId="@item.Id">Agregar al carrito </a>
+                    <a asp-controller="MiCarrito" asp-action="Agregar" asp-route-productoId="@item.Id">Agregar al carrito </a>
                     }
 
 

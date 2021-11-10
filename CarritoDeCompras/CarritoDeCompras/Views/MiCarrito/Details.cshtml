@@ -50,8 +50,8 @@
         </form>
     </div>
     <div>
-        <form asp-action="Comprar">
-            <input type="hidden" asp-for="Id" />
+        <form asp-controller="Compras" asp-action="Comprar">
+            <input type="hidden" asp-for="@Model.Id" />
             <input type="submit" value="COMPRAR" class="btn-outline-success" />
         </form>
     </div>

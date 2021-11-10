@@ -188,7 +188,7 @@ namespace CarritoDeCompras.Controllers
         {
             return _context.Productos.Any(e => e.Id == id);
         }
-
+        /*
         [Authorize(Roles = nameof(Rol.Cliente))]
         public async Task<IActionResult> Agregar(Guid productoId)
         {
@@ -228,7 +228,7 @@ namespace CarritoDeCompras.Controllers
                 return NotFound();
             }
             return RedirectToAction(nameof(ListaProductos));
-        }
+        }*/
 
     }
 

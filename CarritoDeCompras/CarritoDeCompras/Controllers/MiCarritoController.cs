@@ -41,10 +41,13 @@ namespace CarritoDeCompras.Controllers
 
             var carrito = await _context.Carritos
                 .Include(c => c.Cliente)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id && m.Activo== true);
             if (carrito == null)
             {
-                return NotFound();
+                carrito = await _context.Carritos
+                .Include(c => c.Cliente)
+                .FirstOrDefaultAsync(m => m.Activo == true && m.ClienteId== Guid.Parse(User.FindFirst("IdUsuario").Value));
+
             }
 
             return View(carrito);
@@ -157,6 +160,51 @@ namespace CarritoDeCompras.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = nameof(Rol.Cliente))]
+        public async Task<IActionResult> Agregar(Guid productoId)
+        {
+            var carritoUsuario = await _context.Carritos.FirstOrDefaultAsync(c => c.ClienteId == Guid.Parse(User.FindFirst("IdUsuario").Value) && c.Activo == true);
+            var producto = await _context.Productos.FindAsync(productoId);
+
+            if (carritoUsuario != null)
+            {
+
+                var itemsEnCarrito = await _context.CarritoItems.FirstOrDefaultAsync(c => c.ProductoId == productoId && c.CarritoId == carritoUsuario.Id);
+                if (itemsEnCarrito != null)
+                {
+                    itemsEnCarrito.Cantidad += 1;
+                    itemsEnCarrito.ValorTotal = itemsEnCarrito.ValorUnitario * itemsEnCarrito.Cantidad;
+                    _context.Update(itemsEnCarrito);
+                    carritoUsuario.Subtotal += itemsEnCarrito.ValorUnitario;
+                    _context.Update(carritoUsuario);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    CarritoItem items = new CarritoItem
+                    {
+                        Id = Guid.NewGuid(),
+                        CarritoId = carritoUsuario.Id,
+                        ProductoId = producto.Id,
+                        Cantidad = 1,
+                        ValorUnitario = producto.PrecioVigente
+                    };
+                    items.ValorTotal = producto.PrecioVigente * items.Cantidad;
+
+
+                    _context.Add(items);
+                    carritoUsuario.Subtotal += items.ValorTotal;
+                    _context.Update(carritoUsuario);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Details), new { Id = carritoUsuario.Id });
+        }
+
         // POST: MiCarrito/Delete/5
         [HttpPost, ActionName("VaciarCarrito")]
         [ValidateAntiForgeryToken]
@@ -180,7 +228,7 @@ namespace CarritoDeCompras.Controllers
         {
             return _context.Carritos.Any(e => e.Id == id);
         }
-
+/*
         [HttpPost, ActionName("Comprar")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Comprar(Guid id)
@@ -188,18 +236,10 @@ namespace CarritoDeCompras.Controllers
             var carrito = await _context.Carritos.FindAsync(id);
             if (carrito != null)
             {
-                var carritoItems = await _context.CarritoItems.Where(ci => (ci.CarritoId == carrito.Id)).ToListAsync();
-                foreach (var n in carritoItems)
-                {
-                    _context.CarritoItems.Remove(n);
-                }
-                carrito.Subtotal = 0;
                 carrito.Activo = false;
                 _context.Carritos.Update(carrito);
-
                 Carrito carritoNuevo = new Carrito();        // TERMINAR CORREGIR ESTE METODO
                 carritoNuevo.Id = Guid.NewGuid();
-                carritoNuevo.ClienteId = usuario.Id; 
                 carritoNuevo.ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value);
                 carritoNuevo.Activo = true;
                 _context.Add(carritoNuevo);
@@ -209,7 +249,7 @@ namespace CarritoDeCompras.Controllers
                 return RedirectToAction(nameof(Details), new { id = carrito.Id });
             }
             return NotFound();
-        }
+        }*/
         
     }
 }

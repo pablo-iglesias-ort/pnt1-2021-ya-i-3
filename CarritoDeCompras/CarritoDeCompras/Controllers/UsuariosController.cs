@@ -111,11 +111,13 @@ namespace CarritoDeCompras.Controllers
                         usuario.FechaAlta = DateTime.Now;
                         usuario.Password = seguridad.EncriptarPass(pass);
 
-                        Carrito carrito = new Carrito();
-                        carrito.Id = Guid.NewGuid();
-                        carrito.ClienteId = usuario.Id;
-                       //carrito.ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value); //crear clase abstracta
-                        carrito.Activo = true;
+                        Carrito carrito = new Carrito
+                        {
+                            Id = Guid.NewGuid(),
+                            ClienteId = usuario.Id,
+                            //carrito.ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value); //crear clase abstracta
+                            Activo = true
+                        };
 
                         _context.Add(usuario);
                         _context.Add(carrito);
