@@ -22,9 +22,24 @@ namespace CarritoDeCompras.Controllers
         // GET: Compras
         public async Task<IActionResult> Index()
         {
-            var mVC_Entity_FrameworkContext = _context.Compras.Include(c => c.Carrito).Include(c => c.Cliente);
-            return View(await mVC_Entity_FrameworkContext.ToListAsync());
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Id == Guid.Parse(User.FindFirst("IdUsuario").Value));
+            if (usuario.Rol == Rol.Empleado)
+            {
+                var mVC_Entity_FrameworkContext = _context.Compras.Include(c => c.Carrito).Include(c => c.Cliente).ToListAsync();
+                return View(await mVC_Entity_FrameworkContext);
+            }
+            else if (usuario.Rol == Rol.Cliente)
+            {
+                var mVC_Entity_FrameworkContext = _context.Compras.Include(c => c.Carrito).Include(c => c.Cliente).Where(c => (c.ClienteId == usuario.Id));
+                return View(mVC_Entity_FrameworkContext);
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
+
 
         // GET: Compras/Details/5
         public async Task<IActionResult> Details(Guid? id)

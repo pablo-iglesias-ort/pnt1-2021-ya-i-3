@@ -1,14 +1,14 @@
-﻿@model CarritoDeCompras.Models.Carrito 
+﻿@model CarritoDeCompras.Models.Carrito
 
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1><img src=https://us.123rf.com/450wm/vectomart/vectomart1301/vectomart130100121/17694889-ilustraci%C3%B3n-del-carro-lleno-de-bolsa-de-la-compra-y-caja-de-regalo-con-la-cinta-en-venta.jpg?ver=6 width="200" height="200" alt="Computer Hope" /> MI CARRITO</h1>
+<h1><img src=https://us.123rf.com/450wm/vectomart/vectomart1301/vectomart130100121/17694889-ilustraci%C3%B3n-del-carro-lleno-de-bolsa-de-la-compra-y-caja-de-regalo-con-la-cinta-en-venta.jpg?ver =6 width="200" height="200" alt="Computer Hope" /> MI CARRITO</h1>
 
 <div>
-    
+
     <hr />
     <dl class="row">
         @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
@@ -56,19 +56,33 @@
         </form>
     </div>
     <div>
-        <form name="comprar" asp-controller="Compras" asp-action="Comprar">
-            <input type="hidden" asp-for="@Model.Id" />
-            <input type="submit" style="width:100px; height:80px" onclick="pregunta()" value="COMPRAR" class="btn-outline-success" />
-        </form>
+        <button type="button"  style="width : 100px; height : 60px" class="btn-outline-success" data-toggle="modal" data-target="#myModal">
+            COMPRAR
+        </button>
     </div>
 </div>
 
-<script>
-function pregunta(){
-    if (confirm('¿ESTA SEGURO QUE DESEA REALIZAR LA COMPRA?')) {
-        document.comprar.submit()
-    } else {
-        close()
-    }
-}
-</script>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        
+            <div class="modal-header">
+                <h4 class="modal-title">Comprar</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                ¿Esta seguro que desea realizar la compra?
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CANCELAR</button>
+                <form name="comprar" asp-controller="Compras" asp-action="Comprar">
+                    <input type="hidden" asp-for="@Model.Id" />
+                    <button type="submit" class="btn btn-success">CONFIRMAR</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
