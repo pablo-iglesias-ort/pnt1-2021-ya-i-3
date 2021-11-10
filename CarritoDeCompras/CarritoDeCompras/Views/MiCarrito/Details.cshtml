@@ -50,12 +50,25 @@
         </form>
     </div>
     <div>
-        <form asp-controller="Compras" asp-action="Comprar">
+        <form asp-controller="Compras" asp-action="Index">
             <input type="hidden" asp-for="@Model.Id" />
-            <input type="submit" value="COMPRAR" class="btn-outline-success" />
+            <input type="submit" value="VER COMPRAS" class="btn-outline-warning" />
         </form>
     </div>
-   
-
+    <div>
+        <form name="comprar" asp-controller="Compras" asp-action="Comprar">
+            <input type="hidden" asp-for="@Model.Id" />
+            <input type="submit" style="width:100px; height:80px" onclick="pregunta()" value="COMPRAR" class="btn-outline-success" />
+        </form>
+    </div>
 </div>
- 
+
+<script>
+function pregunta(){
+    if (confirm('¿ESTA SEGURO QUE DESEA REALIZAR LA COMPRA?')) {
+        document.comprar.submit()
+    } else {
+        close()
+    }
+}
+</script>
