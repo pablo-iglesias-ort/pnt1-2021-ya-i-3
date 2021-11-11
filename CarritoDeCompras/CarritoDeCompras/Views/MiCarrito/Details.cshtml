@@ -41,22 +41,23 @@
     {
         <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
     }
-
-    <a asp-controller="Productos" asp-action="ListaProductos">Volver al catalogo</a>
+    <a class="btn btn-outline-danger btn-sm" asp-controller="Productos" asp-action="ListaProductos">Volver Al catalogo</a>
+    
     <div>
         <form asp-action="VaciarCarrito">
             <input type="hidden" asp-for="Id" />
-            <input type="submit" value="VACIAR EL CARRITO" class="btn-outline-danger" />
+            <input type="submit" value="Vaciar el carrito" class="btn-outline-danger btn-sm" />
+
         </form>
     </div>
     <div>
         <form asp-controller="Compras" asp-action="Index">
             <input type="hidden" asp-for="@Model.Id" />
-            <input type="submit" value="VER COMPRAS" class="btn-outline-warning" />
+            <input type="submit" value="Ver compras" class="btn-outline-warning btn-sm" />
         </form>
     </div>
     <div>
-        <button type="button"  style="width : 100px; height : 60px" class="btn-outline-success" data-toggle="modal" data-target="#myModal">
+        <button type="button" style="width : 100px; height : 30px" class="btn-outline-success btn-sm" data-toggle="modal" data-target="#myModal">
             COMPRAR
         </button>
     </div>

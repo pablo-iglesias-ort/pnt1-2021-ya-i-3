@@ -33,8 +33,8 @@
 <div>
     @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
     {
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> 
+        <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> 
     }
     |
-     <a asp-controller="Compras" asp-action="Index" asp-route-id="@Model.Id">Volver a lista de compras</a>
+     <a asp-controller="Compras" asp-action="Index" asp-route-id="@Model.Id">Volver a la lista</a>
 </div>

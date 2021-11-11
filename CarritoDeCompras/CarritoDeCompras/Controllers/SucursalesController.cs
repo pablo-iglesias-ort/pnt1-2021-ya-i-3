@@ -56,7 +56,7 @@ namespace CarritoDeCompras.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,nombre,descripcion,telefono,email")] Sucursal sucursal)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Descripcion,Telefono,Email")] Sucursal sucursal)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace CarritoDeCompras.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,nombre,descripcion,telefono,email")] Sucursal sucursal)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Nombre,Descripcion,Telefono,Email")] Sucursal sucursal)
         {
             if (id != sucursal.Id)
             {

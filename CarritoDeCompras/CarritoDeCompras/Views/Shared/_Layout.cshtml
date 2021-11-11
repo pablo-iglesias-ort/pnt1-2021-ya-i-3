@@ -11,6 +11,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
+                <a href="#" class="navbar-brand mb-0 h1"> <img src="https://img.freepik.com/vector-gratis/venta-carrito-compras-completo-pictograma-rojo_1284-8505.jpg?size=338&ext=jpg" width="60" height="60" /> </a>
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Carrito De Compras</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -27,10 +28,10 @@
 
                         @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
                         {
-
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Lista de productos</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Lista Productos</a>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
                             </li>
@@ -66,7 +67,7 @@
                                 <a class="nav-link text-success font-italic" asp-area="" asp-controller="Usuarios" asp-action="Details" asp-route-id="@User.FindFirstValue("IdUsuario")">@User.FindFirstValue(ClaimTypes.GivenName)</a>
                             </li>
                             <li class="nav-item float-right">
-                                <a class="nav-link font-italic" asp-area="" asp-controller="MiCarrito" asp-action="Details" asp-route-id="@User.FindFirstValue("IdCarrito")"><img src=https://e7.pngegg.com/pngimages/833/426/png-clipart-shopping-cart-shopping-cart.png width = "50" height = "50" alt = "Computer Hope" /> </a>
+                                <a class="nav-link font-italic" asp-area="" asp-controller="MiCarrito" asp-action="Details" asp-route-id="@User.FindFirstValue("IdCarrito")"><img src=https://img2.freepng.es/20190304/qhx/kisspng-shopping-cart-image-retail-5c7d798cb95d12.8341810515517269887593.jpg width="50" height="50" alt="Computer Hope" /> </a>
                             </li>
                             <li class="nav-item float-right">
                                 <form asp-controller="Usuarios" asp-action="Salir" method="post">
@@ -86,7 +87,7 @@
                         </ul>
                     </div>
                 }
-  
+
 
             </div>
 
@@ -109,3 +110,4 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
