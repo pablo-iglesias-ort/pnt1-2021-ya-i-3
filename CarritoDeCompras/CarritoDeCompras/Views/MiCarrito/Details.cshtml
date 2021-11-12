@@ -78,7 +78,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">CANCELAR</button>
-                <form name="comprar" asp-controller="Compras" asp-action="Comprar">
+                <form name="comprar" asp-controller="Compra" asp-action="ElegirSucursal">
                     <input type="hidden" asp-for="@Model.Id" />
                     <button type="submit" class="btn btn-success">CONFIRMAR</button>
                 </form>
@@ -96,7 +96,7 @@
                     Nombre
                 </th>
                 <th>
-                   Precio Actual
+                    Precio Actual
                 </th>
                 <th>
                     Cantidad
@@ -119,13 +119,14 @@
                         @Html.DisplayFor(modelItem => item.Cantidad)
                     </td>
                     <td>
-                        <a class="btn btn-outline-warning btn-sm" asp-action="EditarProducto" asp-route-productoId="@item.Id">Editar Cantidad</a>
+                        <a class="btn btn-outline-warning btn-sm" asp-controller="CarritoItems" asp-action="Edit" asp-route-Id="@item.Id">Editar Cantidad</a>
                         <a class="btn btn-outline-danger btn-sm" asp-action="EliminarProducto" asp-route-productoId="@item.Producto.Id">Eliminar Producto</a>
-
-                        
                     </td>
                 </tr>
+                
             }
         </tbody>
     </table>
 </div>
+
+

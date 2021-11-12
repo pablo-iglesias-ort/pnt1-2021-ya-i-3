@@ -216,15 +216,13 @@ namespace CarritoDeCompras.Controllers
             if (carritoUsuario != null)
             {
 
-                var itemsEnCarrito = await _context.CarritoItems.FirstOrDefaultAsync(p => p.ProductoId == productoId);
+                var itemsEnCarrito = await _context.CarritoItems.FirstOrDefaultAsync(p => p.ProductoId == productoId && p.CarritoId == carritoUsuario.Id);
                 if (itemsEnCarrito != null)
                 {
-                    var itemsActuales = itemsEnCarrito.Cantidad;
                    
-                    itemsEnCarrito.Cantidad = 0;
-                    //itemsEnCarrito.ValorTotal -= itemsEnCarrito.ValorUnitario * itemsEnCarrito.Cantidad;
-                    _context.Update(itemsEnCarrito);
-                    carritoUsuario.Subtotal -= itemsEnCarrito.ValorUnitario * itemsActuales;
+                 
+                   
+                    carritoUsuario.Subtotal -= itemsEnCarrito.ValorTotal;
                     _context.CarritoItems.Remove(itemsEnCarrito);
                     _context.Update(carritoUsuario);
                     await _context.SaveChangesAsync();
@@ -237,36 +235,8 @@ namespace CarritoDeCompras.Controllers
             }
             return NotFound();
         }
-
-        public async Task<IActionResult> EditarProducto(Guid productoId, [Bind("Cantidad")] Carrito carrito)
-        {
-            var carritoUsuario = await ObtenerCarritoActivo();
-
-
-            if (carritoUsuario != null)
-            {
-
-                var itemsEnCarrito = await _context.CarritoItems.FirstOrDefaultAsync(p => p.ProductoId == productoId);
-                if (itemsEnCarrito != null)
-                {
-                    var itemsActuales = itemsEnCarrito.Cantidad;
-
-                    itemsEnCarrito.Cantidad = 0;
-                    //itemsEnCarrito.ValorTotal -= itemsEnCarrito.ValorUnitario * itemsEnCarrito.Cantidad;
-                    _context.Update(itemsEnCarrito);
-                    carritoUsuario.Subtotal -= itemsEnCarrito.ValorUnitario * itemsActuales;
-                    _context.CarritoItems.Remove(itemsEnCarrito);
-                    _context.Update(carritoUsuario);
-                    await _context.SaveChangesAsync();
-
-                    return RedirectToAction(nameof(Details), new { Id = carritoUsuario.Id });
-
-
-                }
-
-            }
-            return NotFound();
-        }
+       
+       
 
 
         public async Task<Carrito> ObtenerCarritoActivo()
@@ -279,7 +249,7 @@ namespace CarritoDeCompras.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> VaciarCarrito(Guid Id)
         {
-            var carrito = await _context.Carritos.FirstOrDefaultAsync(c => c.Id == Id && c.Activo == true);
+            var carrito = await ObtenerCarritoActivo();
             if (carrito != null)
             {
                 var carritoItems = await _context.CarritoItems.Where(ci => (ci.CarritoId == carrito.Id)).ToListAsync();
@@ -298,32 +268,6 @@ namespace CarritoDeCompras.Controllers
         {
             return _context.Carritos.Any(e => e.Id == id);
         }
-        /*
-                [HttpPost, ActionName("Comprar")]
-                [ValidateAntiForgeryToken]
-                public async Task<IActionResult> Comprar(Guid id)
-                {
-                    var carrito = await _context.Carritos.FindAsync(id);
-                    if (carrito != null)
-                    {
-                        carrito.Activo = false;
-                        _context.Carritos.Update(carrito);
-                        Carrito carritoNuevo = new Carrito();        // TERMINAR CORREGIR ESTE METODO
-                        carritoNuevo.Id = Guid.NewGuid();
-                        carritoNuevo.ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value);
-                        carritoNuevo.Activo = true;
-                        _context.Add(carritoNuevo);
-
-
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction(nameof(Details), new { id = carrito.Id });
-                    }
-                    return NotFound();
-                }*/
-
-
-
-
-
+       
     } 
 }

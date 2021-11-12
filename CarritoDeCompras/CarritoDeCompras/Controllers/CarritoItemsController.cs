@@ -97,7 +97,7 @@ namespace CarritoDeCompras.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,ValorUnitario,Cantidad,ValorTotal,ProductoId,CarritoId")] CarritoItem carritoItem)
+        public async Task<IActionResult> Edit(Guid id, CarritoItem carritoItem)
         {
             if (id != carritoItem.Id)
             {
@@ -108,7 +108,12 @@ namespace CarritoDeCompras.Controllers
             {
                 try
                 {
-                    _context.Update(carritoItem);
+                    
+                    var carritoItems = _context.CarritoItems.FirstOrDefault(c => c.Id == id);
+
+                    carritoItems.Cantidad = carritoItem.Cantidad;
+                   
+                    _context.Update(carritoItems);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
