@@ -70,15 +70,14 @@
 <div>
     @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
     {
-        <a class="btn btn-dark btn-sm" asp-action="EditCliente" asp-route-id="@Model.Id">Editar</a>
+        <a class="btn btn-outline-light btn-primary" asp-action="EditCliente" asp-route-id="@Model.Id">Editar</a>
     }
     @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
     {
 
-        <a class="btn btn-dark btn-sm" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
-        <a class="btn btn-secondary btn-sm" asp-controller="Categorias"asp-action="Index">Ver Categorias</a>
-        <a class="btn btn-primary btn-sm" asp-action="Index">Lista de clientes</a>
-
+        <a class="btn btn-outline-light btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+        <a class="btn btn-outline-light btn-primary" asp-action="Index" asp-route-id="@Model.Id">Volver</a>
+       
     }
 
 </div>

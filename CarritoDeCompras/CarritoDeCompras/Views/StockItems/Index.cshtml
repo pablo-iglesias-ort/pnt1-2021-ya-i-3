@@ -7,7 +7,7 @@
 <h1>Stock items</h1>
 
 <p>
-    <a asp-action="Create">Crear nuevo</a>
+    <a class="btn btn-outline-light btn-success" asp-action="Create">Crear nuevo</a>
 </p>
 <table class="table table-hover">
     <thead class="thead-light">
@@ -38,8 +38,7 @@
             </td>
             <td>
                 <a class="btn btn-outline-info btn-sm" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                <a class="btn btn-outline-warning btn-sm" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
-                <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                <a class="btn btn-outline-warning btn-sm" asp-action="Details" asp-route-id="@item.Id">Detalles</a>         
                 </td>
         </tr>
 }

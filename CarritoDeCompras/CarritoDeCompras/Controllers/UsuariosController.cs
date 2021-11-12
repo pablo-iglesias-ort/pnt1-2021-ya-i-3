@@ -216,9 +216,9 @@ namespace CarritoDeCompras.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditCliente(Guid id,[Bind("Telefono,Direccion,Password")] Usuario usuario)
+        public async Task<IActionResult> EditCliente(Guid id, Cliente cliente)
         {
-            if (id != usuario.Id)
+            if (id != cliente.Id)
             {
                 return NotFound();
             }
@@ -227,12 +227,19 @@ namespace CarritoDeCompras.Controllers
             {
                 try
                 {
-                    _context.Update(usuario);
+                    var usuarioId = Guid.Parse(User.FindFirst("IdUsuario").Value);
+                    var clienteExistente = _context.Clientes.FirstOrDefault(c => c.Id == usuarioId);
+
+                    clienteExistente.Telefono = cliente.Telefono;
+                    clienteExistente.Direccion = cliente.Direccion;
+                    
+
+                    _context.Update(clienteExistente);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsuarioExists(usuario.Id))
+                    if (!UsuarioExists(cliente.Id))
                     {
                         return NotFound();
                     }
@@ -243,7 +250,7 @@ namespace CarritoDeCompras.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(usuario);
+            return View(cliente);
         }
 
         // GET: Usuarios/Delete/5
@@ -320,7 +327,7 @@ namespace CarritoDeCompras.Controllers
                         identidad.AddClaim(new Claim(ClaimTypes.Role, user.Rol.ToString()));
                         // Agregar ID Usuario
                         identidad.AddClaim(new Claim("IdUsuario", user.Id.ToString()));
-                        var carrito = await _context.Carritos.FirstOrDefaultAsync(u => u.ClienteId == user.Id);
+                        var carrito = await _context.Carritos.FirstOrDefaultAsync(u => u.ClienteId == user.Id && u.Activo ==true);
                         if (carrito!=null) {
                             
                             identidad.AddClaim(new Claim("IdCarrito", carrito.Id.ToString())); //TIRA ERROR AL INGRESAR
@@ -348,9 +355,8 @@ namespace CarritoDeCompras.Controllers
             return View();
 
         }
-        public IActionResult AccesoDenegado(string returnUrl)
+        public IActionResult AccesoDenegado()
         {
-            TempData["UrlIngreso"] = returnUrl;
             return View();
         }
 

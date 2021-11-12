@@ -41,11 +41,14 @@ namespace CarritoDeCompras.Controllers
 
             var carrito = await _context.Carritos
                 .Include(c => c.Cliente)
+                .Include(c => c.Items)
+                    .ThenInclude(it => it.Producto)
                 .FirstOrDefaultAsync(m => m.Id == id && m.Activo== true);
             if (carrito == null)
             {
                 carrito = await _context.Carritos
                 .Include(c => c.Cliente)
+                .Include(c => c.Items)
                 .FirstOrDefaultAsync(m => m.Activo == true && m.ClienteId== Guid.Parse(User.FindFirst("IdUsuario").Value));
 
             }
@@ -163,7 +166,7 @@ namespace CarritoDeCompras.Controllers
         [Authorize(Roles = nameof(Rol.Cliente))]
         public async Task<IActionResult> Agregar(Guid productoId)
         {
-            var carritoUsuario = await _context.Carritos.FirstOrDefaultAsync(c => c.ClienteId == Guid.Parse(User.FindFirst("IdUsuario").Value) && c.Activo == true);
+            var carritoUsuario = await ObtenerCarritoActivo();
             var producto = await _context.Productos.FindAsync(productoId);
 
             if (carritoUsuario != null)
@@ -205,12 +208,17 @@ namespace CarritoDeCompras.Controllers
             return RedirectToAction(nameof(Details), new { Id = carritoUsuario.Id });
         }
 
+        public async Task<Carrito> ObtenerCarritoActivo()
+        {
+            return await _context.Carritos.FirstOrDefaultAsync(c => c.ClienteId == Guid.Parse(User.FindFirst("IdUsuario").Value) && c.Activo == true);
+        }
+
         // POST: MiCarrito/Delete/5
         [HttpPost, ActionName("VaciarCarrito")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> VaciarCarrito(Guid id)
+        public async Task<IActionResult> VaciarCarrito(Guid Id)
         {
-            var carrito = await _context.Carritos.FindAsync(id);
+            var carrito = await _context.Carritos.FirstOrDefaultAsync(c => c.Id == Id && c.Activo==true);
             if (carrito != null)
             {
                 var carritoItems = await _context.CarritoItems.Where(ci => (ci.CarritoId == carrito.Id)).ToListAsync();

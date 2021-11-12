@@ -49,8 +49,12 @@
 <div>
     @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
     {
-        <a class="btn btn-outline-light btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Editar</a> 
-}
+        <a class="btn btn-outline-light btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+        <a class="btn btn-outline-light btn-primary" asp-controller="Productos" asp-action="Index">Volver a la lista</a>
+    }
+    @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
+    {
+        <a class="btn btn-outline-light btn-primary" asp-controller="Productos" asp-action="ListaProductos">Volver a la lista</a>
+    }
 
-    <a class="btn btn-outline-light btn-primary" asp-controller="Productos" asp-action="ListaProductos">Volver a la lista</a>
 </div>

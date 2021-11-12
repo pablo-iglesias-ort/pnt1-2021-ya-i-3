@@ -48,11 +48,7 @@
                 <input asp-for="Direccion" class="form-control" />
                 <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
+          
             <div class="form-group">                  
                <input asp-controller="Usuario" asp-action="EditCliente" asp-route-id="@Model.Id" type="submit" value="Guardar" class="btn btn-primary"  /> 
             </div>
@@ -61,7 +57,15 @@
 </div>
 
 <div>
-    <a class="btn btn-outline-light btn-primary" asp-action="Details" asp-route-id="@Model.Id">Volver</a>
+    @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
+    {
+        <a class="btn btn-outline-light btn-primary" asp-action="Details" asp-route-id="@Model.Id">Volver</a>
+    }
+    @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
+    {
+        <a class="btn btn-outline-light btn-primary" asp-action="Index" asp-route-id="@Model.Id">Volver</a>
+    }
+
 </div>
 
 @section Scripts {

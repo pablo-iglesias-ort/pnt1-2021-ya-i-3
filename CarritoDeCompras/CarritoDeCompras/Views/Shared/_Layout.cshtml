@@ -25,6 +25,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="ListaProductos">Catalogo</a>
+                        </li>
+
+
 
                         @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
                         {
@@ -39,9 +44,12 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Sucursales" asp-action="Index">Sucursales</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="StockItems" asp-action="Index">StockTotal</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="StockItems" asp-action="Index">Stock</a>
                             </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Categorias" asp-action="Index">Categorias</a>
+                            </li>
 
 
                         }
@@ -49,13 +57,13 @@
 
                         @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
                         {
+
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Sucursales" asp-action="ListaSucursales">Sucursales</a>
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="ListaProductos">Catalogo</a>
-                        </li>
+
 
                     </ul>
                 </div>
