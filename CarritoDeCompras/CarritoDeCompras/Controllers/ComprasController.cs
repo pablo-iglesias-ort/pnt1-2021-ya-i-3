@@ -183,6 +183,7 @@ namespace CarritoDeCompras.Controllers
         public async Task<IActionResult> Comprar(Guid? Id)
         {
             var carrito = await _context.Carritos.FindAsync(Id);
+            var sucursal = await _context.Sucursales.FirstOrDefaultAsync();
             if (carrito != null)
             {
                 Compra compra = new Compra
@@ -190,6 +191,7 @@ namespace CarritoDeCompras.Controllers
                     Id = Guid.NewGuid(),
                     CarritoId = carrito.Id,
                     ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value),
+                    SucursalId = sucursal.Id,
                     Total = carrito.Subtotal,
                 };
                 try
