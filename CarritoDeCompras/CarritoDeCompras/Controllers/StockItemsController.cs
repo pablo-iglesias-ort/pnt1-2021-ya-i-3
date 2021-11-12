@@ -70,7 +70,7 @@ namespace CarritoDeCompras.Controllers
         [Authorize(Roles = nameof(Rol.Empleado))]
         public IActionResult Create()
         {
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Descripcion");
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Nombre");
             ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Email");
             return View();
         }
@@ -82,14 +82,28 @@ namespace CarritoDeCompras.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Cantidad,ProductoId,SucursalId")] StockItem stockItem)
         {
+            var urlIngreso = TempData["UrlIngreso"] as string;
+
             if (ModelState.IsValid)
             {
-                stockItem.Id = Guid.NewGuid();
-                _context.Add(stockItem);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var itemSucursal = await _context.StockItem.FirstOrDefaultAsync(c => c.ProductoId == stockItem.ProductoId && c.SucursalId == stockItem.SucursalId);
+                if (itemSucursal == null)
+                {
+                    stockItem.Id = Guid.NewGuid();
+                    _context.Add(stockItem);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                } else
+                {
+                    ViewBag.ErrorEnLogin = "Ya existe stock cargado para ese producto y esa sucursal";
+                    ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Nombre", stockItem.ProductoId);
+                    ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Email", stockItem.SucursalId);
+                    return View();
+                }
+
+               
             }
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Descripcion", stockItem.ProductoId);
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Nombre", stockItem.ProductoId);
             ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Email", stockItem.SucursalId);
             return View(stockItem);
         }
@@ -107,7 +121,7 @@ namespace CarritoDeCompras.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Descripcion", stockItem.ProductoId);
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Nombre", stockItem.ProductoId);
             ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Email", stockItem.SucursalId);
             return View(stockItem);
         }
@@ -144,7 +158,7 @@ namespace CarritoDeCompras.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Descripcion", stockItem.ProductoId);
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Nombre", stockItem.ProductoId);
             ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Email", stockItem.SucursalId);
             return View(stockItem);
         }

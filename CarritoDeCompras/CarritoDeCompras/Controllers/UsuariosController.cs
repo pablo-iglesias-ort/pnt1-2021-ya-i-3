@@ -31,7 +31,7 @@ namespace CarritoDeCompras.Controllers
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Usuarios.ToListAsync());
+            return View(await _context.Empleados.ToListAsync());
         }
 
         [Authorize]
@@ -55,9 +55,9 @@ namespace CarritoDeCompras.Controllers
 
 
         // GET: Usuarios/Create
-        
-        
-        [Authorize (Roles = nameof(Rol.Empleado))]
+
+
+        [Authorize(Roles = nameof(Rol.Empleado))]
         public IActionResult Create()
         {
             return View();
@@ -159,19 +159,32 @@ namespace CarritoDeCompras.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Nombre,NombreUsuario,Email,FechaAlta,Password,Rol")] Usuario usuario)
+        public async Task<IActionResult> Edit(Guid id, Empleado usuario)
         {
             if (id != usuario.Id)
             {
                 return NotFound();
             }
 
+  
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(usuario);
+                    
+                    var empleadoExistente = _context.Empleados.FirstOrDefault(c => c.Id == id);
+
+                    empleadoExistente.Direccion = usuario.Direccion;
+                    empleadoExistente.Telefono = usuario.Telefono;
+                    empleadoExistente.Nombre = usuario.Nombre;
+                    empleadoExistente.Apellido = usuario.Apellido;
+                    empleadoExistente.NombreUsuario = usuario.NombreUsuario;
+                    empleadoExistente.Dni = usuario.Dni;
+                    empleadoExistente.Email = usuario.Email;
+
+                    _context.Update(empleadoExistente);
                     await _context.SaveChangesAsync();
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -248,9 +261,9 @@ namespace CarritoDeCompras.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = id });
             }
-            return View(cliente);
+            return NotFound();
         }
 
         // GET: Usuarios/Delete/5

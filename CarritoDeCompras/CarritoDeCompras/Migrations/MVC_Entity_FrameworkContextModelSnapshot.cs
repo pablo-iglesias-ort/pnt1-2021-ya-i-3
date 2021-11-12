@@ -93,10 +93,13 @@ namespace CarritoDeCompras.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("CarritoId")
+                    b.Property<Guid>("CarritoId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("ClienteId")
+                    b.Property<Guid>("ClienteId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("SucursalId")
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Total")
@@ -107,6 +110,8 @@ namespace CarritoDeCompras.Migrations
                     b.HasIndex("CarritoId");
 
                     b.HasIndex("ClienteId");
+
+                    b.HasIndex("SucursalId");
 
                     b.ToTable("Compras");
                 });
@@ -173,19 +178,19 @@ namespace CarritoDeCompras.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("descripcion")
+                    b.Property<string>("Descripcion")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("email")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("nombre")
+                    b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("telefono")
+                    b.Property<string>("Telefono")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -229,10 +234,10 @@ namespace CarritoDeCompras.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NombreUsuario")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<byte[]>("Password")
-                        .IsRequired()
                         .HasColumnType("BLOB");
 
                     b.Property<string>("Telefono")
@@ -293,15 +298,27 @@ namespace CarritoDeCompras.Migrations
                 {
                     b.HasOne("CarritoDeCompras.Models.Carrito", "Carrito")
                         .WithMany()
-                        .HasForeignKey("CarritoId");
+                        .HasForeignKey("CarritoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CarritoDeCompras.Models.Cliente", "Cliente")
                         .WithMany("Compras")
-                        .HasForeignKey("ClienteId");
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarritoDeCompras.Models.Sucursal", "Sucursal")
+                        .WithMany()
+                        .HasForeignKey("SucursalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Carrito");
 
                     b.Navigation("Cliente");
+
+                    b.Navigation("Sucursal");
                 });
 
             modelBuilder.Entity("CarritoDeCompras.Models.Producto", b =>
@@ -324,7 +341,7 @@ namespace CarritoDeCompras.Migrations
                         .IsRequired();
 
                     b.HasOne("CarritoDeCompras.Models.Sucursal", "Sucursal")
-                        .WithMany("stockItems")
+                        .WithMany("StockItems")
                         .HasForeignKey("SucursalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -346,7 +363,7 @@ namespace CarritoDeCompras.Migrations
 
             modelBuilder.Entity("CarritoDeCompras.Models.Sucursal", b =>
                 {
-                    b.Navigation("stockItems");
+                    b.Navigation("StockItems");
                 });
 
             modelBuilder.Entity("CarritoDeCompras.Models.Cliente", b =>

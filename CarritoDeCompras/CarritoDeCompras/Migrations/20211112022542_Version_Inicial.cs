@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CarritoDeCompras.Migrations
 {
-    public partial class Version_uno : Migration
+    public partial class Version_Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,10 +25,10 @@ namespace CarritoDeCompras.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    nombre = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
-                    descripcion = table.Column<string>(type: "TEXT", nullable: true),
-                    telefono = table.Column<string>(type: "TEXT", nullable: true),
-                    email = table.Column<string>(type: "TEXT", nullable: false)
+                    Nombre = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
+                    Descripcion = table.Column<string>(type: "TEXT", nullable: true),
+                    Telefono = table.Column<string>(type: "TEXT", nullable: true),
+                    Email = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,12 +43,12 @@ namespace CarritoDeCompras.Migrations
                     Nombre = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
                     Apellido = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
                     Dni = table.Column<string>(type: "TEXT", nullable: false),
-                    NombreUsuario = table.Column<string>(type: "TEXT", nullable: true),
+                    NombreUsuario = table.Column<string>(type: "TEXT", nullable: false),
                     Telefono = table.Column<string>(type: "TEXT", nullable: true),
                     Direccion = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     FechaAlta = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Password = table.Column<byte[]>(type: "BLOB", nullable: false),
+                    Password = table.Column<byte[]>(type: "BLOB", nullable: true),
                     Discriminator = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -157,8 +157,9 @@ namespace CarritoDeCompras.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ClienteId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    CarritoId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    ClienteId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CarritoId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    SucursalId = table.Column<Guid>(type: "TEXT", nullable: false),
                     Total = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
@@ -169,13 +170,19 @@ namespace CarritoDeCompras.Migrations
                         column: x => x.CarritoId,
                         principalTable: "Carritos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Compras_Sucursales_SucursalId",
+                        column: x => x.SucursalId,
+                        principalTable: "Sucursales",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Compras_Usuarios_ClienteId",
                         column: x => x.ClienteId,
                         principalTable: "Usuarios",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -202,6 +209,11 @@ namespace CarritoDeCompras.Migrations
                 name: "IX_Compras_ClienteId",
                 table: "Compras",
                 column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Compras_SucursalId",
+                table: "Compras",
+                column: "SucursalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Productos_CategoriaId",
