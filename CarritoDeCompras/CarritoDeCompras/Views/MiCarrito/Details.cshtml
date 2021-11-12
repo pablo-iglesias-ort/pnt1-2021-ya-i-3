@@ -1,6 +1,4 @@
 ﻿@model CarritoDeCompras.Models.Carrito
-
-
 @{
     ViewData["Title"] = "Details";
 }
@@ -36,13 +34,15 @@
     </dl>
 </div>
 
+
 <div>
+
     @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
     {
         <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
     }
     <a class="btn btn-outline-light btn-primary" asp-controller="Productos" asp-action="ListaProductos">Volver al catalogo</a>
-    
+
     <div>
         <form asp-action="VaciarCarrito">
             <input type="hidden" asp-for="@Model.Id" />
@@ -66,7 +66,7 @@
 <div class="modal fade" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
-        
+
             <div class="modal-header">
                 <h4 class="modal-title">Comprar</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -86,4 +86,46 @@
 
         </div>
     </div>
+</div>
+
+<div>
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                   Precio Actual
+                </th>
+                <th>
+                    Cantidad
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Producto.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Producto.PrecioVigente)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cantidad)
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-warning btn-sm" asp-action="EditarProducto" asp-route-productoId="@item.Id">Editar Cantidad</a>
+                        <a class="btn btn-outline-danger btn-sm" asp-action="EliminarProducto" asp-route-productoId="@item.Producto.Id">Eliminar Producto</a>
+
+                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

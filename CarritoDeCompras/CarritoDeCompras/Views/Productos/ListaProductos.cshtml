@@ -41,22 +41,14 @@
                     <a class="btn btn-outline-warning btn-sm" asp-action="Details" asp-route-id="@item.Id">
                         Ver detalle
                     </a>
-
-
-                    @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
+                     @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
                     {
 
                 <a class="btn btn-info btn-sm" asp-controller="MiCarrito" asp-action="Agregar" asp-route-productoId="@item.Id">Agregar Al carrito</a>
-                            
-                        
-                     
-                    }
-
-
-                </td>
+                }
+            </td>
             </tr>
-
-        }
+            }
         
     </tbody>
 </table>
