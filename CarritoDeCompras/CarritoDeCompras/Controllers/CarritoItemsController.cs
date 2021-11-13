@@ -110,9 +110,28 @@ namespace CarritoDeCompras.Controllers
                 {
                     
                     var carritoItems = _context.CarritoItems.FirstOrDefault(c => c.Id == id);
+                    var carrito = await _context.Carritos.FindAsync(carritoItem.CarritoId);
+                    
+                    
+                    
+                    carritoItems.ValorUnitario = carritoItem.ValorUnitario;
+                    carritoItems.ValorTotal =  carritoItem.ValorUnitario *carritoItem.Cantidad;
 
-                    carritoItems.Cantidad = carritoItem.Cantidad;
-                   
+                    if(carritoItems.Cantidad < carritoItem.Cantidad)
+                    {
+                        carrito.Subtotal += carritoItems.ValorUnitario * (carritoItem.Cantidad - carritoItems.Cantidad);
+                        carritoItems.Cantidad = carritoItem.Cantidad;
+                    }
+                    else
+                    {
+                        carrito.Subtotal -= carritoItems.ValorUnitario * (carritoItems.Cantidad - carritoItem.Cantidad);
+                        carritoItems.Cantidad = carritoItem.Cantidad;
+
+                    }
+                    
+
+
+
                     _context.Update(carritoItems);
                     await _context.SaveChangesAsync();
                 }

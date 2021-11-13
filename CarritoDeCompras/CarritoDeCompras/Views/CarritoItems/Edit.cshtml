@@ -15,7 +15,7 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="ValorUnitario" class="control-label"></label>
-                <input asp-for="ValorUnitario" class="form-control" />
+                <input readonly="readonly" asp-for="ValorUnitario" class="form-control" />
                 <span asp-validation-for="ValorUnitario" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -25,28 +25,29 @@
             </div>
             <div class="form-group">
                 <label asp-for="ValorTotal" class="control-label"></label>
-                <input asp-for="ValorTotal" class="form-control" />
+                <input readonly ="readonly" asp-for="ValorTotal" class="form-control" />
                 <span asp-validation-for="ValorTotal" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ProductoId" class="control-label"></label>
-                <select asp-for="ProductoId" class="form-control" asp-items="ViewBag.ProductoId"></select>
+                <select readonly="readonly" asp-for="ProductoId" class="form-control" asp-items="ViewBag.ProductoId"></select>
                 <span asp-validation-for="ProductoId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CarritoId" class="control-label"></label>
-                <select asp-for="CarritoId" class="form-control" asp-items="ViewBag.CarritoId"></select>
+                <select readonly="readonly" asp-for="CarritoId" class="form-control" asp-items="ViewBag.CarritoId"></select>
                 <span asp-validation-for="CarritoId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Editar" class="btn btn-primary" />
+                
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Volver a la lista</a>
+    
 </div>
 
 @section Scripts {
