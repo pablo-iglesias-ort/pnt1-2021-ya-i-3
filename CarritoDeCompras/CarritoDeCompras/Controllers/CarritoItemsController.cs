@@ -112,10 +112,8 @@ namespace CarritoDeCompras.Controllers
                     var carritoItems = _context.CarritoItems.FirstOrDefault(c => c.Id == id);
                     var carrito = await _context.Carritos.FindAsync(carritoItem.CarritoId);
                     
-                    
-                    
                     carritoItems.ValorUnitario = carritoItem.ValorUnitario;
-                    carritoItems.ValorTotal =  carritoItem.ValorUnitario *carritoItem.Cantidad;
+                    carritoItems.ValorTotal =  carritoItem.ValorUnitario * carritoItem.Cantidad;
 
                     if(carritoItems.Cantidad < carritoItem.Cantidad)
                     {
@@ -146,7 +144,9 @@ namespace CarritoDeCompras.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+               
+               
+                return RedirectToAction("Details", "MiCarrito", new { id = carritoItem.CarritoId });
             }
             ViewData["CarritoId"] = new SelectList(_context.Carritos, "Id", "Id", carritoItem.CarritoId);
             ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Descripcion", carritoItem.ProductoId);

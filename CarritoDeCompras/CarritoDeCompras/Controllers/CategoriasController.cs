@@ -62,6 +62,7 @@ namespace CarritoDeCompras.Controllers
                 _context.Add(categoria);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+
             }
             return View(categoria);
         }
