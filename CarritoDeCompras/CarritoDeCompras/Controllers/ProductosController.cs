@@ -154,7 +154,7 @@ namespace CarritoDeCompras.Controllers
             return View(producto);
         }
 
-        [Authorize(Roles = nameof(Rol.Empleado))]
+   /*   [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -183,7 +183,7 @@ namespace CarritoDeCompras.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        */
         private bool ProductoExists(Guid id)
         {
             return _context.Productos.Any(e => e.Id == id);

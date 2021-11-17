@@ -52,6 +52,7 @@ namespace CarritoDeCompras.Controllers
             var compra = await _context.Compras
                 .Include(c => c.Carrito)
                 .Include(c => c.Cliente)
+                .Include(c => c.Sucursal)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (compra == null)
             {

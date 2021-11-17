@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CarritoDeCompras.Controllers
 {
+    [Authorize(Roles = nameof(Rol.Empleado))]
     public class CategoriasController : Controller
     {
         private readonly MVC_Entity_FrameworkContext _context;
@@ -118,7 +119,7 @@ namespace CarritoDeCompras.Controllers
             return View(categoria);
         }
 
-        [Authorize(Roles = nameof(Rol.Empleado))]
+   /*     [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -145,7 +146,7 @@ namespace CarritoDeCompras.Controllers
             _context.Categorias.Remove(categoria);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
+        }*/
 
         private bool CategoriaExists(Guid id)
         {

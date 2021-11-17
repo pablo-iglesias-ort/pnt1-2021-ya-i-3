@@ -162,7 +162,7 @@ namespace CarritoDeCompras.Controllers
             ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Email", stockItem.SucursalId);
             return View(stockItem);
         }
-
+        /*
         [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Delete(Guid? id)
         {
@@ -193,7 +193,7 @@ namespace CarritoDeCompras.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        */
         private bool StockItemExists(Guid id)
         {
             return _context.StockItem.Any(e => e.Id == id);
