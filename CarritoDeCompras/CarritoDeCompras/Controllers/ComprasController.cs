@@ -212,10 +212,68 @@ namespace CarritoDeCompras.Controllers
                 {
                     return NotFound();
                 }
-                return RedirectToAction(nameof(Details), new { id = compra.Id });
+                return RedirectToAction(nameof(FinalizarCompra), new { id = compra.Id });
             }
             return NotFound();
         }
-       
+
+        [Authorize(Roles = nameof(Rol.Cliente))]
+        public async Task<IActionResult> FinalizarCompra(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var compra = await _context.Compras.Include(c => c.Cliente).FirstOrDefaultAsync(c => c.Id == id);
+            if (compra == null)
+            {
+                return NotFound();
+            }
+            ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Descripcion", compra.SucursalId);
+            return View(compra);
+        }
+
+        // POST: Compras/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> FinalizarCompra(Guid id, Compra compra)
+        {
+            if (id != compra.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var compraExistente = _context.Compras.FirstOrDefault(c => c.Id == id);
+
+                compraExistente.SucursalId = compra.SucursalId;
+                
+                try
+                {
+                    _context.Update(compraExistente);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CompraExists(compra.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CarritoId"] = new SelectList(_context.Carritos, "Id", "Id", compra.CarritoId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", compra.ClienteId);
+            return View(compra);
+        }
+
     }
 }

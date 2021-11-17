@@ -14,9 +14,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="ValorUnitario" class="control-label"></label>
-                <input readonly="readonly" asp-for="ValorUnitario" class="form-control" />
-                <span asp-validation-for="ValorUnitario" class="text-danger"></span>
+                <input type="hidden" readonly="readonly" asp-for="@Model.ProductoId" class="form-control" />
+                <span asp-validation-for="@Model.Producto.Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Producto.Nombre" class="control-label"></label>
+                <input readonly="readonly" value="@Model.Producto.Nombre" class="form-control" />
+                <span asp-validation-for="@Model.Producto.Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" readonly="readonly" asp-for="CarritoId" class="form-control" />
+                <span asp-validation-for="CarritoId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Cantidad" class="control-label"></label>
@@ -24,23 +32,17 @@
                 <span asp-validation-for="Cantidad" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="ValorUnitario" class="control-label"></label>
+                <input readonly="readonly" asp-for="ValorUnitario" class="form-control" />
+                <span asp-validation-for="ValorUnitario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="ValorTotal" class="control-label"></label>
-                <input readonly ="readonly" asp-for="ValorTotal" class="form-control" />
+                <input readonly="readonly" asp-for="ValorTotal" class="form-control" />
                 <span asp-validation-for="ValorTotal" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProductoId" class="control-label"></label>
-                <select readonly="readonly" asp-for="ProductoId" class="form-control" asp-items="ViewBag.ProductoId"></select>
-                <span asp-validation-for="ProductoId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CarritoId" class="control-label"></label>
-                <select readonly="readonly" asp-for="CarritoId" class="form-control" asp-items="ViewBag.CarritoId"></select>
-                <span asp-validation-for="CarritoId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Editar" class="btn btn-primary" />
-                
+                <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
         </form>
     </div>

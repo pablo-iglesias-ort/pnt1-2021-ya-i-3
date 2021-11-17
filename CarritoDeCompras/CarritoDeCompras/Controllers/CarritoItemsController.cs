@@ -82,13 +82,12 @@ namespace CarritoDeCompras.Controllers
             {
                 return NotFound();
             }
-            var carritoItem = await _context.CarritoItems.FindAsync(id);
+            var carritoItem = await _context.CarritoItems.Include(c => c.Producto).FirstOrDefaultAsync(c => c.Id == id);
             if (carritoItem == null)
             {
                 return NotFound();
             }
-            ViewData["CarritoId"] = new SelectList(_context.Carritos, "Id", "Id", carritoItem.CarritoId);
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Descripcion", carritoItem.ProductoId);
+            
             return View(carritoItem);
         }
 
@@ -109,28 +108,26 @@ namespace CarritoDeCompras.Controllers
                 try
                 {
                     
-                    var carritoItems = _context.CarritoItems.FirstOrDefault(c => c.Id == id);
+                    var itemExistente = _context.CarritoItems.FirstOrDefault(c => c.Id == id);
                     var carrito = await _context.Carritos.FindAsync(carritoItem.CarritoId);
+                                       
                     
-                    carritoItems.ValorUnitario = carritoItem.ValorUnitario;
-                    carritoItems.ValorTotal =  carritoItem.ValorUnitario * carritoItem.Cantidad;
-
-                    if(carritoItems.Cantidad < carritoItem.Cantidad)
+                    if(itemExistente.Cantidad < carritoItem.Cantidad)
                     {
-                        carrito.Subtotal += carritoItems.ValorUnitario * (carritoItem.Cantidad - carritoItems.Cantidad);
-                        carritoItems.Cantidad = carritoItem.Cantidad;
+                        carrito.Subtotal += itemExistente.ValorUnitario * (carritoItem.Cantidad - itemExistente.Cantidad);
+                       
                     }
                     else
                     {
-                        carrito.Subtotal -= carritoItems.ValorUnitario * (carritoItems.Cantidad - carritoItem.Cantidad);
-                        carritoItems.Cantidad = carritoItem.Cantidad;
-
+                        carrito.Subtotal -= itemExistente.ValorUnitario * (itemExistente.Cantidad - carritoItem.Cantidad);
+                        
                     }
-                    
+
+                    itemExistente.Cantidad = carritoItem.Cantidad;
+                    itemExistente.ValorTotal = itemExistente.Cantidad *  itemExistente.ValorUnitario;
 
 
-
-                    _context.Update(carritoItems);
+                    _context.Update(itemExistente);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
