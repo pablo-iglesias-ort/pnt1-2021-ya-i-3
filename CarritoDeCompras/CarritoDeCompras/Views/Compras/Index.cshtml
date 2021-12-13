@@ -35,19 +35,8 @@
                 @Html.DisplayFor(modelItem => item.Total)
             </td>
             <td>
-                @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
-                {
-
-                    <a class="btn btn-outline-info btn-sm" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                }
-
                 <a class="btn btn-outline-warning btn-sm" asp-action="Details" asp-route-id="@item.Id">Detalle</a> |
-                @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
-                {
-                    <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
-                }
-
-            </td>
+             </td>
         </tr>
 }
     </tbody>

@@ -30,31 +30,6 @@
                         </li>
 
 
-
-                        @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Lista Productos</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Sucursales" asp-action="Index">Sucursales</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="StockItems" asp-action="Index">Stock</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Categorias" asp-action="Index">Categorias</a>
-                            </li>
-
-
-                        }
-
-
                         @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
                         {
 
@@ -71,16 +46,40 @@
                 {
                     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                         <ul class="navbar-nav flex-grow-1">
+                            <div class="dropdown">
+                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @User.FindFirstValue(ClaimTypes.GivenName)
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Usuarios" asp-action="Details" asp-route-id="@User.FindFirstValue("IdUsuario")">Perfil</a>
+                                    @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
+                                    {
+                                        <a class="dropdown-item" asp-area="" asp-controller="Compras" asp-action="Index">Compras</a>
+                                        <div class="dropdown-divider"></div>
+                                        <div class="dropdown-item-text"><strong>Administrar</strong></div>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Productos" asp-action="Index">Lista Productos</a>
+                                        <a class="dropdown-item" asp-controller="Categorias" asp-action="Index">Categorias</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Sucursales" asp-action="Index">Sucursales</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="StockItems" asp-action="Index">Stock</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="dropdown-item" asp-area="" asp-controller="Compras" asp-action="Index">Mis compras</a>
+                                    }
+                                    <div class="dropdown-divider"></div>
+
+                                    <form asp-controller="Usuarios" asp-action="Salir" method="post">
+                                        <button type="submit" class="btn-danger dropdown-item">Salir</button>
+                                    </form>
+                                </div>
+                            </div>
                             <li class="nav-item float-right">
-                                <a class="nav-link text-success font-italic" asp-area="" asp-controller="Usuarios" asp-action="Details" asp-route-id="@User.FindFirstValue("IdUsuario")">@User.FindFirstValue(ClaimTypes.GivenName)</a>
+                                <a class="nav-link font-italic" asp-area="" asp-controller="MiCarrito" asp-action="Details" asp-route-id="@User.FindFirstValue("IdCarrito")"><img src=https://img2.freepng.es/20190304/qhx/kisspng-shopping-cart-image-retail-5c7d798cb95d12.8341810515517269887593.jpg width="30" height="30" alt="Computer Hope" /> </a>
                             </li>
                             <li class="nav-item float-right">
-                                <a class="nav-link font-italic" asp-area="" asp-controller="MiCarrito" asp-action="Details" asp-route-id="@User.FindFirstValue("IdCarrito")"><img src=https://img2.freepng.es/20190304/qhx/kisspng-shopping-cart-image-retail-5c7d798cb95d12.8341810515517269887593.jpg width="50" height="50" alt="Computer Hope" /> </a>
-                            </li>
-                            <li class="nav-item float-right">
-                                <form asp-controller="Usuarios" asp-action="Salir" method="post">
-                                    <button type="submit" class="nav-link text-danger">Salir</button>
-                                </form>
+
                             </li>
                         </ul>
                     </div>
