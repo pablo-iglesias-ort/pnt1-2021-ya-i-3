@@ -251,51 +251,49 @@ namespace CarritoDeCompras.Controllers
 
             if (ModelState.IsValid)
             {
-                var compraExistente = _context.Compras.Include(c => c.Carrito).ThenInclude(c=> c.Items).ThenInclude(c => c.Producto).FirstOrDefault(c => c.Id == id);
-                
-            foreach (var item in compraExistente.Carrito.Items)
+                var compraExistente = _context.Compras.Include(c => c.Carrito).ThenInclude(c => c.Items).ThenInclude(c => c.Producto).FirstOrDefault(c => c.Id == id);
+                if (hayStock(compra))
+
                 {
-                   var stockItem = _context.StockItem.Include(s => s.Sucursal).Include(s => s.Producto).FirstOrDefault(s => (s.SucursalId == compra.SucursalId && s.ProductoId == item.ProductoId));
-                    if (stockItem == null || stockItem.Cantidad < item.Cantidad)
+                    foreach (var item in compraExistente.Carrito.Items)
                     {
-                        ViewData["CarritoId"] = new SelectList(_context.Carritos, "Id", "Id", compra.CarritoId);
-                        ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", compra.ClienteId);
-                        ViewBag.ErrorEnStock = "Sucursal sin stock. Por favor, intente más tarde";
-                        return RedirectToAction(nameof(SinStock), new { id = compra.Id });
-                    }
-                    else 
-                    {
+                        var stockItem = itemEnStock(compra.SucursalId, item.ProductoId);
                         stockItem.Cantidad -= item.Cantidad;
+                        _context.StockItem.Update(stockItem);
                     }
-                }
-               
-                compraExistente.SucursalId = compra.SucursalId;
-                
+                    compraExistente.SucursalId = compra.SucursalId;
 
-                try
-                {
-                    _context.Compras.Update(compraExistente);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CompraExists(compra.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Compras.Update(compraExistente);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!CompraExists(compra.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    ViewData["CarritoId"] = new SelectList(_context.Carritos, "Id", "Id", compra.CarritoId);
+                    ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", compra.ClienteId);
+                    return RedirectToAction(nameof(Gracias), new { id = compra.Id });
+                } else
+                {
+                    return RedirectToAction(nameof(SinStock), new { id = compra.Id });
                 }
-                return RedirectToAction(nameof(Gracias), new { id = compra.Id });
             }
-            ViewData["CarritoId"] = new SelectList(_context.Carritos, "Id", "Id", compra.CarritoId);
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", compra.ClienteId);
-            return View(compra);
+            else
+            {
+                return NotFound();
+            }
+            
         }
-
-        public async Task<IActionResult> Gracias(Guid? id)
+            public async Task<IActionResult> Gracias(Guid? id)
         {
             if (id == null)
             {
@@ -337,6 +335,34 @@ namespace CarritoDeCompras.Controllers
             }
 
             return View(compra);
+        }
+
+        private bool hayStock(Compra compra)
+        {
+            bool resultado=true;
+            var items = _context.CarritoItems.Where(i => (i.CarritoId == compra.CarritoId)).AsEnumerable();
+            var i = 0;
+            var aux = items.Count();
+
+            while (resultado==true && i < aux)
+            {
+                var stockItem = _context.StockItem.Include(s => s.Sucursal).Include(s => s.Producto).FirstOrDefault(s => (s.SucursalId == compra.SucursalId && s.ProductoId == items.ElementAt(i).ProductoId));
+                if (stockItem == null || stockItem.Cantidad < items.ElementAt(i).Cantidad)
+                {
+                    resultado = false;
+                                 }
+                else
+                {
+                    i++;
+                }
+            }
+            return resultado;
+        }
+
+        private StockItem itemEnStock(Guid idSucursal, Guid idProducto)
+        {
+           var resultado =  _context.StockItem.FirstOrDefault(s => (s.SucursalId == idSucursal && s.ProductoId == idProducto));
+            return resultado;
         }
     }
 }
