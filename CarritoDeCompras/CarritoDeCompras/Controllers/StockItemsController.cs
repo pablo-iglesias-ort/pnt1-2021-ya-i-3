@@ -71,7 +71,7 @@ namespace CarritoDeCompras.Controllers
         public IActionResult Create()
         {
             ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Nombre");
-            ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Email");
+            ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Nombre");
             return View();
         }
 

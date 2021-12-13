@@ -134,36 +134,7 @@ namespace CarritoDeCompras.Controllers
             return View(carrito);
         }
 
-        // GET: MiCarrito/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var carrito = await _context.Carritos
-                .Include(c => c.Cliente)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (carrito == null)
-            {
-                return NotFound();
-            }
-
-            return View(carrito);
-        }
-
-        // POST: MiCarrito/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var carrito = await _context.Carritos.FindAsync(id);
-            _context.Carritos.Remove(carrito);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
+       
         [Authorize(Roles = nameof(Rol.Cliente))]
         public async Task<IActionResult> Agregar(Guid productoId)
         {
@@ -269,6 +240,40 @@ namespace CarritoDeCompras.Controllers
         {
             return _context.Carritos.Any(e => e.Id == id);
         }
-       
-    } 
+
+        /*
+         *  // GET: MiCarrito/Delete/5
+        public async Task<IActionResult> Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var carrito = await _context.Carritos
+                .Include(c => c.Cliente)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (carrito == null)
+            {
+                return NotFound();
+            }
+
+            return View(carrito);
+        }
+
+        // POST: MiCarrito/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var carrito = await _context.Carritos.FindAsync(id);
+            _context.Carritos.Remove(carrito);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+         */
+
+
+    }
 }

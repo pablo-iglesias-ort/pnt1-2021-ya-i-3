@@ -1,31 +1,40 @@
 ﻿@model CarritoDeCompras.Models.Compra
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "FinalizarCompra";
 }
 
-<h1>Detalles</h1>
+<h1>Compra Finalizada con Exito</h1>
 
+<h4>Compra</h4>
+<div class="alert alert-success" role="alert">
+    ¡Gracias por su compra! Debajo le mostramos su detalle.
+</div>
 <div>
-    <h4>Compra</h4>
-    <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Cliente)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Cliente.Apellido), @Html.DisplayFor(model => model.Cliente.Nombre)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Sucursal)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Sucursal.Descripcion)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Total)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Total)
         </dd>
     </dl>
@@ -35,7 +44,7 @@
         <thead class="thead-light">
             <tr>
                 <th>
-                    Nombre
+                    Producto
                 </th>
                 <th>
                     Precio Actual
@@ -71,10 +80,9 @@
     </table>
 </div>
 <div>
-    @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
-    {
-        <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> 
-    }
-    
-     <a class="btn btn-outline-light btn-primary" asp-controller="Compras" asp-action="Index" asp-route-id="@Model.Id">Volver a la lista</a>
+    <a asp-action="Index" class="btn btn-primary">Volver a mis compras</a>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

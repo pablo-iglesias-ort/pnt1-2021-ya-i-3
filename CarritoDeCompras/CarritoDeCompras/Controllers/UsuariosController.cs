@@ -261,7 +261,7 @@ namespace CarritoDeCompras.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Details), new { id = id });
+                return RedirectToAction(nameof(Details), new { id });
             }
             return NotFound();
         }

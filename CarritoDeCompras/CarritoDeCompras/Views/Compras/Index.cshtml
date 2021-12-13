@@ -6,13 +6,7 @@
 
 <h1>Lista de compras</h1>
 
-<p>
-    @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
-    {
-        <a asp-action="Create">Crear nueva compra</a>
-    }
 
-</p>
 <table class="table table-hover">
     <thead class="thead-light">
         <tr>
@@ -35,7 +29,7 @@
                 @Html.DisplayFor(modelItem => item.Cliente.Apellido)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Carrito.Id)
+                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Total)

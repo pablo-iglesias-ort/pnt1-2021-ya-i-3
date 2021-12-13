@@ -51,6 +51,8 @@ namespace CarritoDeCompras.Controllers
 
             var compra = await _context.Compras
                 .Include(c => c.Carrito)
+                .ThenInclude(c=>c.Items)
+                .ThenInclude(c=>c.Producto)
                 .Include(c => c.Cliente)
                 .Include(c => c.Sucursal)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -226,7 +228,7 @@ namespace CarritoDeCompras.Controllers
                 return NotFound();
             }
 
-            var compra = await _context.Compras.Include(c => c.Cliente).FirstOrDefaultAsync(c => c.Id == id);
+            var compra = await _context.Compras.Include(c => c.Cliente).Include(c => c.Carrito).ThenInclude(c => c.Items).ThenInclude(c => c.Producto).FirstOrDefaultAsync(c => c.Id == id);
             if (compra == null)
             {
                 return NotFound();
@@ -249,13 +251,30 @@ namespace CarritoDeCompras.Controllers
 
             if (ModelState.IsValid)
             {
-                var compraExistente = _context.Compras.FirstOrDefault(c => c.Id == id);
-
+                var compraExistente = _context.Compras.Include(c => c.Carrito).ThenInclude(c=> c.Items).ThenInclude(c => c.Producto).FirstOrDefault(c => c.Id == id);
+                
+            foreach (var item in compraExistente.Carrito.Items)
+                {
+                   var stockItem = _context.StockItem.Include(s => s.Sucursal).Include(s => s.Producto).FirstOrDefault(s => (s.SucursalId == compra.SucursalId && s.ProductoId == item.ProductoId));
+                    if (stockItem == null || stockItem.Cantidad < item.Cantidad)
+                    {
+                        ViewData["CarritoId"] = new SelectList(_context.Carritos, "Id", "Id", compra.CarritoId);
+                        ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", compra.ClienteId);
+                        ViewBag.ErrorEnStock = "Sucursal sin stock. Por favor, intente más tarde";
+                        return RedirectToAction(nameof(SinStock), new { id = compra.Id });
+                    }
+                    else 
+                    {
+                        stockItem.Cantidad -= item.Cantidad;
+                    }
+                }
+               
                 compraExistente.SucursalId = compra.SucursalId;
                 
+
                 try
                 {
-                    _context.Update(compraExistente);
+                    _context.Compras.Update(compraExistente);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -269,12 +288,55 @@ namespace CarritoDeCompras.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Gracias), new { id = compra.Id });
             }
             ViewData["CarritoId"] = new SelectList(_context.Carritos, "Id", "Id", compra.CarritoId);
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", compra.ClienteId);
             return View(compra);
         }
 
+        public async Task<IActionResult> Gracias(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var compra = await _context.Compras
+                .Include(c => c.Carrito)
+                .ThenInclude(c => c.Items)
+                .ThenInclude(c => c.Producto)
+                .Include(c => c.Cliente)
+                .Include(c => c.Sucursal)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (compra == null)
+            {
+                return NotFound();
+            }
+
+            return View(compra);
+        }
+
+        public async Task<IActionResult> SinStock(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var compra = await _context.Compras
+                .Include(c => c.Carrito)
+                .ThenInclude(c => c.Items)
+                .ThenInclude(c => c.Producto)
+                .Include(c => c.Cliente)
+                .Include(c => c.Sucursal)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (compra == null)
+            {
+                return NotFound();
+            }
+
+            return View(compra);
+        }
     }
 }
