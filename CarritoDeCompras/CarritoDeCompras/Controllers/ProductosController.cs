@@ -26,7 +26,7 @@ namespace CarritoDeCompras.Controllers
         [Authorize(Roles = nameof(Rol.Empleado))]
         public async Task<IActionResult> Index()
         {
-            var mVC_Entity_FrameworkContext = _context.Productos.Include(p => p.Categoria);
+            var mVC_Entity_FrameworkContext = _context.Productos.Include(p => p.Categoria).OrderByDescending(p => p.Categoria);
             return View(await mVC_Entity_FrameworkContext.ToListAsync());
         }
 
@@ -53,7 +53,7 @@ namespace CarritoDeCompras.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ListaProductos()
         {
-            var mVC_Entity_FrameworkContext = _context.Productos.Include(p => p.Categoria).Where(p => p.Activo == true);
+            var mVC_Entity_FrameworkContext = _context.Productos.Include(p => p.Categoria).Where(p => p.Activo == true).OrderByDescending(p => p.Categoria);
             return View(await mVC_Entity_FrameworkContext.ToListAsync());
         }
 

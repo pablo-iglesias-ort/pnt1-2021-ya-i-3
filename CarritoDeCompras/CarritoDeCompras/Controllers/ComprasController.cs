@@ -60,7 +60,7 @@ namespace CarritoDeCompras.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.MessageOk = TempData["MessageOK"];
             return View(compra);
         }
 
@@ -242,7 +242,7 @@ namespace CarritoDeCompras.Controllers
             {
                 return NotFound();
             }
-            ViewBag.MessageOk = TempData["MessageOK"];
+            
             ViewBag.MessageError = TempData["MessageError"];
             ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Descripcion", compra.SucursalId);
             return View(compra);
@@ -293,7 +293,7 @@ namespace CarritoDeCompras.Controllers
                     ViewData["CarritoId"] = new SelectList(_context.Carritos, "Id", "Id", compra.CarritoId);
                     ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", compra.ClienteId);
                     TempData["MessageOK"] = "Gracias por su compra";
-                    return RedirectToAction(nameof(FinalizarCompra), new { id = compra.Id });
+                    return RedirectToAction(nameof(Details), new { id = compra.Id });
                 } else
                 {
                     TempData["MessageError"] = "Sin stock. Intente nuevamente más tarde";

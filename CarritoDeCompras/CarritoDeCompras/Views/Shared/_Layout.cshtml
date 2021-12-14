@@ -11,8 +11,8 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a href="#" class="navbar-brand mb-0 h1"> <img src="https://img.freepik.com/vector-gratis/venta-carrito-compras-completo-pictograma-rojo_1284-8505.jpg?size=338&ext=jpg" width="60" height="60" /> </a>
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Carrito De Compras</a>
+                <a href="#" class="navbar-brand mb-0 h1"> <img src="https://img.freepik.com/vector-gratis/venta-carrito-compras-completo-pictograma-rojo_1284-8505.jpg?size=338&ext=jpg" width="60" height="60" />  </a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Tienda Ronqui-Yivo-Guti</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -46,6 +46,11 @@
                 {
                     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                         <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item float-right">
+                                @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente") { 
+                                <a class="nav-link font-italic" asp-area="" asp-controller="MiCarrito" asp-action="Details" asp-route-id="@User.FindFirstValue("IdCarrito")"><img src=https://img2.freepng.es/20190304/qhx/kisspng-shopping-cart-image-retail-5c7d798cb95d12.8341810515517269887593.jpg width="25" height="25" alt="Computer Hope" /> Mi carrito</a>
+                                }
+                            </li>
                             <div class="dropdown">
                                 <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @User.FindFirstValue(ClaimTypes.GivenName)
@@ -75,12 +80,6 @@
                                     </form>
                                 </div>
                             </div>
-                            <li class="nav-item float-right">
-                                <a class="nav-link font-italic" asp-area="" asp-controller="MiCarrito" asp-action="Details" asp-route-id="@User.FindFirstValue("IdCarrito")"><img src=https://img2.freepng.es/20190304/qhx/kisspng-shopping-cart-image-retail-5c7d798cb95d12.8341810515517269887593.jpg width="30" height="30" alt="Computer Hope" /> </a>
-                            </li>
-                            <li class="nav-item float-right">
-
-                            </li>
                         </ul>
                     </div>
                 }
@@ -108,7 +107,8 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - Carrito De Compras - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+            <img src="https://www.ort.edu.ar/img/LogoOrtArgWeb2017.jpg" width="45" height="45" alt="Computer Hope" />
+            &copy; Proyecto Instituto ORT - Analista de Sistemas - NT1-2021 - Carrito De Compras - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

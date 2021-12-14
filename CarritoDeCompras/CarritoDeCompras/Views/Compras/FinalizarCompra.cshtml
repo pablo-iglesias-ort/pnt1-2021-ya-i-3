@@ -1,20 +1,17 @@
 ﻿@model CarritoDeCompras.Models.Compra
 
 @{
-    ViewData["Title"] = "FinalizarCompra";
+    ViewData["Title"] = "Finalizar Compra";
 }
 
 <h1>FinalizarCompra</h1>
 
 <h4>Compra</h4>
 <hr />
-@if (@ViewBag.MessageOk != null)
+<h3>Elija la sucursal para retirar su productos</h3>
+<hr />
+@if (@ViewBag.MessageError != null)
 {
-    <div class="alert alert-success" role="alert">
-        @ViewBag.MessageOk
-    </div>
-}
-@if (@ViewBag.MessageError != null) { 
     <div class="alert alert-danger" role="alert">
         @ViewBag.MessageError
     </div>
@@ -33,13 +30,13 @@
                 <span asp-validation-for="CarritoId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SucursalId" class="control-label"></label>
+                <label asp-for="SucursalId" class="control-label">Elija su sucursal</label>
                 <select asp-for="SucursalId" class="form-control" asp-items="ViewBag.SucursalId"></select>
                 <span asp-validation-for="SucursalId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Total" class="control-label"></label>
-                <input readonly="readonly" asp-for="Total" class="form-control" />
+                <input  readonly="readonly" asp-for="Total" class="form-control" />
                 <span asp-validation-for="Total" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -9,24 +9,30 @@
 <div>
     <h4>Compra</h4>
     <hr />
+    @if (@ViewBag.MessageOk != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewBag.MessageOk
+        </div>
+    }
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Cliente)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Cliente.Apellido), @Html.DisplayFor(model => model.Cliente.Nombre)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sucursal)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Sucursal) elegida
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Sucursal.Descripcion)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Total)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Total)
+        <dd class="col-sm-10">
+            $ @Html.DisplayFor(model => model.Total)
         </dd>
     </dl>
 </div>
