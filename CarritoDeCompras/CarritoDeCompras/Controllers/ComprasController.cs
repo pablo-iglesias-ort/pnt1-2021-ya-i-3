@@ -25,7 +25,7 @@ namespace CarritoDeCompras.Controllers
             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Id == Guid.Parse(User.FindFirst("IdUsuario").Value));
             if (usuario.Rol == Rol.Empleado)
             {
-                var mVC_Entity_FrameworkContext = _context.Compras.Include(c => c.Carrito).Include(c => c.Cliente).ToListAsync();
+                var mVC_Entity_FrameworkContext = _context.Compras.Include(c => c.Carrito).Include(c => c.Cliente).OrderByDescending(c => c.Total).ToListAsync();
                 return View(await mVC_Entity_FrameworkContext);
             }
             else if (usuario.Rol == Rol.Cliente)
