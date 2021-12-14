@@ -8,6 +8,17 @@
 
 <h4>Compra</h4>
 <hr />
+@if (@ViewBag.MessageOk != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.MessageOk
+    </div>
+}
+@if (@ViewBag.MessageError != null) { 
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.MessageError
+    </div>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="FinalizarCompra">

@@ -185,7 +185,10 @@ namespace CarritoDeCompras.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Comprar(Guid? Id)
         {
+                        
             var carrito = await _context.Carritos.FindAsync(Id);
+            var items = await _context.CarritoItems.Where(i => i.CarritoId == carrito.Id).ToListAsync();
+            if (items.Count()!=0) { 
             var sucursal = await _context.Sucursales.FirstOrDefaultAsync();
             if (carrito != null)
             {
@@ -218,6 +221,12 @@ namespace CarritoDeCompras.Controllers
                 return RedirectToAction(nameof(FinalizarCompra), new { id = compra.Id });
             }
             return NotFound();
+            }
+            else
+            {
+                TempData["Message"] = "Debe agregar al menos un item para comprar";
+                return RedirectToAction("Details", "MiCarrito", new { Id});
+            }
         }
 
         [Authorize(Roles = nameof(Rol.Cliente))]
@@ -233,6 +242,8 @@ namespace CarritoDeCompras.Controllers
             {
                 return NotFound();
             }
+            ViewBag.MessageOk = TempData["MessageOK"];
+            ViewBag.MessageError = TempData["MessageError"];
             ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Descripcion", compra.SucursalId);
             return View(compra);
         }
@@ -281,10 +292,12 @@ namespace CarritoDeCompras.Controllers
                     }
                     ViewData["CarritoId"] = new SelectList(_context.Carritos, "Id", "Id", compra.CarritoId);
                     ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", compra.ClienteId);
-                    return RedirectToAction(nameof(Gracias), new { id = compra.Id });
+                    TempData["MessageOK"] = "Gracias por su compra";
+                    return RedirectToAction(nameof(FinalizarCompra), new { id = compra.Id });
                 } else
                 {
-                    return RedirectToAction(nameof(SinStock), new { id = compra.Id });
+                    TempData["MessageError"] = "Sin stock. Intente nuevamente más tarde";
+                    return RedirectToAction(nameof(FinalizarCompra), new { id = compra.Id });
                 }
             }
             else
@@ -293,50 +306,7 @@ namespace CarritoDeCompras.Controllers
             }
             
         }
-            public async Task<IActionResult> Gracias(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var compra = await _context.Compras
-                .Include(c => c.Carrito)
-                .ThenInclude(c => c.Items)
-                .ThenInclude(c => c.Producto)
-                .Include(c => c.Cliente)
-                .Include(c => c.Sucursal)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (compra == null)
-            {
-                return NotFound();
-            }
-
-            return View(compra);
-        }
-
-        public async Task<IActionResult> SinStock(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var compra = await _context.Compras
-                .Include(c => c.Carrito)
-                .ThenInclude(c => c.Items)
-                .ThenInclude(c => c.Producto)
-                .Include(c => c.Cliente)
-                .Include(c => c.Sucursal)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (compra == null)
-            {
-                return NotFound();
-            }
-
-            return View(compra);
-        }
-
+   
         private bool hayStock(Compra compra)
         {
             bool resultado=true;

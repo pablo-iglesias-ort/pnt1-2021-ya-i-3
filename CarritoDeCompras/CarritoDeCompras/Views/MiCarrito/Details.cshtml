@@ -33,36 +33,31 @@
         </dd>
     </dl>
 </div>
-
-
-<div>
-   
-
-            @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Empleado")
-            {
-                <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
-            }
-            <a class="btn btn-outline-light btn-primary" asp-controller="Productos" asp-action="ListaProductos">Volver al catalogo</a>
-            <div>
-                <form asp-action="VaciarCarrito">
-                    <input type="hidden" asp-for="@Model.Id" />
-                    <input type="submit" value="Vaciar carrito" class="btn-outline-danger btn-sm" />
-
-                </form>
-            </div>
-            <div>
-                <form asp-controller="Compras" asp-action="Index">
-                    <input type="hidden" asp-for="@Model.Id" />
-                    <input type="submit" value="Ver mis compras" class="btn-outline-warning btn-sm" />
-                </form>
-            </div>
-            <div>
-                <button type="button" style="width : 100px; height : 30px" class="btn-outline-success btn-sm" data-toggle="modal" data-target="#myModal">
-                    Generar compra
-                </button>
-            </div>
-
-</div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div><a class="btn btn-primary" asp-controller="Productos" asp-action="ListaProductos">Volver al catalogo</a></div>
+        </div>
+        <div class="col">
+            <form asp-controller="Compras" asp-action="Index">
+                <input type="hidden" asp-for="@Model.Id" />
+                <input type="submit" value="Ver mis compras" class="btn btn-info" />
+            </form>
+        </div>
+        <div class="col">
+            <form asp-action="VaciarCarrito">
+                <input type="hidden" asp-for="@Model.Id" />
+                <input type="submit" value="Vaciar carrito" class="btn btn-danger" />
+            </form>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Generar compra </button>
+        </div>
+    </div>
+    <div class="text-danger">
+        @ViewBag.Message</div>
+    </div>
+<br />
 <div>
     <table class="table table-hover">
         <thead class="thead-light">
@@ -87,25 +82,24 @@
         <tbody>
             @foreach (var item in Model.Items)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Producto.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Producto.PrecioVigente)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cantidad)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ValorTotal)
-                </td>
-                <td>
-                    <a class="btn btn-outline-warning btn-sm" asp-controller="CarritoItems" asp-action="Edit" asp-route-Id="@item.Id">Editar Cantidad</a>
-                    <a class="btn btn-outline-danger btn-sm" asp-action="EliminarProducto" asp-route-productoId="@item.Producto.Id">Eliminar Producto</a>
-                </td>
-            </tr>
-
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Producto.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Producto.PrecioVigente)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cantidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ValorTotal)
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-warning btn-sm" asp-controller="CarritoItems" asp-action="Edit" asp-route-Id="@item.Id">Editar Cantidad</a>
+                        <a class="btn btn-outline-danger btn-sm" asp-action="EliminarProducto" asp-route-productoId="@item.Producto.Id">Eliminar Producto</a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -114,16 +108,13 @@
 <div class="modal fade" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h4 class="modal-title">Comprar</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-
             <div class="modal-body">
                 ¿Esta seguro que desea realizar la compra?
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">CANCELAR</button>
                 <form name="comprar" asp-controller="Compras" asp-action="Comprar">

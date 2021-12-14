@@ -52,7 +52,7 @@ namespace CarritoDeCompras.Controllers
                 .FirstOrDefaultAsync(m => m.Activo == true && m.ClienteId == Guid.Parse(User.FindFirst("IdUsuario").Value));
 
             }
-
+            ViewBag.Message = TempData["Message"];
             return View(carrito);
         }
 
