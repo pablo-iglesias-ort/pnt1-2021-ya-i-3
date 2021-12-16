@@ -10,6 +10,7 @@ namespace CarritoDeCompras.Models
     public class Compra
     {
         [Key]
+        [Display(Name = "Número de Compra")]
         public Guid Id { get; set; }
 
         [ForeignKey(nameof(Cliente))]

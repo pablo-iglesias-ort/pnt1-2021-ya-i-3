@@ -15,26 +15,38 @@
             @ViewBag.MessageOk
         </div>
     }
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Cliente)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Cliente.Apellido), @Html.DisplayFor(model => model.Cliente.Nombre)
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Cliente)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Cliente.Apellido), @Html.DisplayFor(model => model.Cliente.Nombre)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Id)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Id)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Sucursal) elegida
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Sucursal.Descripcion)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Total)
-        </dt>
-        <dd class="col-sm-10">
-            $ @Html.DisplayFor(model => model.Total)
-        </dd>
-    </dl>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Sucursal) elegida
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Sucursal.Nombre)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Sucursal.Descripcion)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Sucursal.Descripcion)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Total)
+    </dt>
+    <dd class="col-sm-10">
+        $ @Html.DisplayFor(model => model.Total)
+    </dd>
+</dl>
 </div>
 <div>
     <table class="table table-hover">
