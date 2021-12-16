@@ -44,8 +44,13 @@
                      @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Role) == "Cliente")
                     {
 
+
+@if (item.Activo) { 
                 <a class="btn btn-info btn-sm" asp-controller="MiCarrito" asp-action="Agregar" asp-route-productoId="@item.Id">Agregar Al carrito</a>
                 }
+}@if (!item.Activo)
+{
+                 <span class="alert-danger">PAUSADO</span>   }
             </td>
             </tr>
             }

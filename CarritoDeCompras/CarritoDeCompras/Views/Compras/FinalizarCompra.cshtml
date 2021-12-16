@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Total" class="control-label"></label>
-                <input  readonly="readonly" asp-for="Total" class="form-control" />
+                <input readonly="readonly" asp-for="Total" class="form-control" />
                 <span asp-validation-for="Total" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -45,7 +45,7 @@
         </form>
     </div>
 </div>
-<div>
+<!--<div>
     <table class="table table-hover">
         <thead class="thead-light">
             <tr>
@@ -64,29 +64,29 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Carrito.Items)
+            foreach (var item in Model.Carrito.Items)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Producto.Nombre)
+                      Html.DisplayFor(modelItem => item.Producto.Nombre)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Producto.PrecioVigente)
+                      Html.DisplayFor(modelItem => item.Producto.PrecioVigente)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Cantidad)
+                      Html.DisplayFor(modelItem => item.Cantidad)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ValorTotal)
+                      Html.DisplayFor(modelItem => item.ValorTotal)
                     </td>
                 </tr>
 
             }
         </tbody>
     </table>
-</div>
+</div>-->
 <div>
-    <a asp-action="Index" class="btn btn-primary">Volver a mis compras</a>
+    <a asp-action="Details" asp-controller="MiCarrito" asp-route-id="@Model.CarritoId" class="btn btn-primary">Volver al carrito</a>
 </div>
 
 @section Scripts {

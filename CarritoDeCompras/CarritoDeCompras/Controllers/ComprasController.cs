@@ -200,25 +200,8 @@ namespace CarritoDeCompras.Controllers
                     SucursalId = sucursal.Id,
                     Total = carrito.Subtotal,
                 };
-                try
-                {
-                    await Create(compra);
-                    carrito.Activo = false;
-                    _context.Carritos.Update(carrito);
-                    Carrito carritoNuevo = new Carrito
-                    {
-                        Id = Guid.NewGuid(),
-                        ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value),
-                        Activo = true
-                    };        // TERMINAR CORREGIR ESTE METODO
-                    _context.Add(carritoNuevo);
-                    await _context.SaveChangesAsync();
-                }
-                catch
-                {
-                    return NotFound();
-                }
-                return RedirectToAction(nameof(FinalizarCompra), new { id = compra.Id });
+
+                return RedirectToAction(nameof(FinalizarCompra), compra);
             }
             return NotFound();
             }
@@ -230,19 +213,18 @@ namespace CarritoDeCompras.Controllers
         }
 
         [Authorize(Roles = nameof(Rol.Cliente))]
-        public async Task<IActionResult> FinalizarCompra(Guid? id)
+        public IActionResult FinalizarCompra(Compra compra)
         {
-            if (id == null)
+            if (compra.Id == null)
             {
                 return NotFound();
             }
 
-            var compra = await _context.Compras.Include(c => c.Cliente).Include(c => c.Carrito).ThenInclude(c => c.Items).ThenInclude(c => c.Producto).FirstOrDefaultAsync(c => c.Id == id);
             if (compra == null)
             {
                 return NotFound();
             }
-            
+           
             ViewBag.MessageError = TempData["MessageError"];
             ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Descripcion", compra.SucursalId);
             return View(compra);
@@ -262,22 +244,32 @@ namespace CarritoDeCompras.Controllers
 
             if (ModelState.IsValid)
             {
-                var compraExistente = _context.Compras.Include(c => c.Carrito).ThenInclude(c => c.Items).ThenInclude(c => c.Producto).FirstOrDefault(c => c.Id == id);
                 if (hayStock(compra))
 
                 {
-                    foreach (var item in compraExistente.Carrito.Items)
+                    var items = await _context.CarritoItems.Where(c => c.CarritoId == compra.CarritoId).ToListAsync();
+                    foreach (var item in items)
                     {
                         var stockItem = itemEnStock(compra.SucursalId, item.ProductoId);
                         stockItem.Cantidad -= item.Cantidad;
                         _context.StockItem.Update(stockItem);
                     }
-                    compraExistente.SucursalId = compra.SucursalId;
-
+                    compra.SucursalId = compra.SucursalId;
+                    var carrito = await _context.Carritos.FindAsync(compra.CarritoId);
                     try
                     {
-                        _context.Compras.Update(compraExistente);
-                        await _context.SaveChangesAsync();
+
+                            await Create(compra);
+                            carrito.Activo = false;
+                            _context.Carritos.Update(carrito);
+                            Carrito carritoNuevo = new Carrito
+                            {
+                                Id = Guid.NewGuid(),
+                                ClienteId = Guid.Parse(User.FindFirst("IdUsuario").Value),
+                                Activo = true
+                            };        // TERMINAR CORREGIR ESTE METODO
+                            _context.Add(carritoNuevo);
+                            await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
                     {
@@ -297,7 +289,7 @@ namespace CarritoDeCompras.Controllers
                 } else
                 {
                     TempData["MessageError"] = "Sin stock. Intente nuevamente más tarde";
-                    return RedirectToAction(nameof(FinalizarCompra), new { id = compra.Id });
+                    return RedirectToAction(nameof(FinalizarCompra), compra);
                 }
             }
             else
